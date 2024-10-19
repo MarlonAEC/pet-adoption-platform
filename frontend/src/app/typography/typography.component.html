@@ -1,0 +1,11 @@
+<ng-container [ngSwitch]="type">
+    <h1 *ngSwitchCase="'h1'" [ngClass]="customClass">{{ text }}</h1>
+    <h2 *ngSwitchCase="'h2'" [ngClass]="customClass">{{ text }}</h2>
+    <h3 *ngSwitchCase="'h3'" [ngClass]="customClass">{{ text }}</h3>
+    <h4 *ngSwitchCase="'h4'" [ngClass]="customClass">{{ text }}</h4>
+    <h5 *ngSwitchCase="'h5'" [ngClass]="customClass">{{ text }}</h5>
+    <h6 *ngSwitchCase="'h6'" [ngClass]="customClass">{{ text }}</h6>
+    <p *ngSwitchCase="'p'" [ngClass]="customClass">{{ text }}</p>
+    <span *ngSwitchCase="'span'" [ngClass]="customClass">{{ text }}</span>
+    <div *ngSwitchDefault [ngClass]="customClass">{{ text }}</div>
+</ng-container>
