@@ -1,0 +1,12 @@
+target/
+pom.xml.tag
+*.class
+*.log
+*.jar
+*.zip
+*.war
+*.ear
+*.nar
+*.rar
+hs_err_pid*
+.DS_Store
