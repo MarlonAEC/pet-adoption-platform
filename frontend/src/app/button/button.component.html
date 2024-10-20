@@ -1,0 +1,6 @@
+<button [ngClass]="[customClass, disabled ? 'opacity-70 cursor-not-allowed' : '' ]" (click)="handleClick()"
+    class="py-2 px-4  bg-primary1-500 hover:bg-primary1-600 text-white transition ease-in duration-200 text-center text-base  shadow-md  rounded-xl"
+    type="button" disabled="{{disabled}}">
+    <app-typography type="span" [text]="label"
+        customClass="text-white font-semibold text-center text-base"></app-typography>
+</button>
