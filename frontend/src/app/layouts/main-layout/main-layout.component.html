@@ -1,8 +1,6 @@
-<div>
-    <header>
-        <app-navbar></app-navbar>
-    </header>
-    <div class="layout-body">
+<div class="flex flex-col">
+    <app-navbar></app-navbar>
+    <div class="absolute layout-body bg-transparent rounded-2xl max-w-6xl self-center h-screen w-full m-x-4 top-32 p-4">
         <main class="layout-content">
             <router-outlet></router-outlet>
         </main>

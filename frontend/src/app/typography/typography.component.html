@@ -1,29 +1,29 @@
 <ng-container [ngSwitch]="type">
-    <h1 *ngSwitchCase="'h1'" [ngClass]="[customClass, fontWeightClass]" class="prose-2xl text-primary2-500">
+    <h1 *ngSwitchCase="'h1'" [ngClass]="[customClass, fontWeightClass]" class="prose-2xl text-primary2-500 text-5xl">
         {{ text }}
     </h1>
-    <h2 *ngSwitchCase="'h2'" [ngClass]="[customClass, fontWeightClass]" class="prose-xl text-primary2-500">
+    <h2 *ngSwitchCase="'h2'" [ngClass]="[customClass, fontWeightClass]" class="prose-xl text-primary2-500 text-4xl">
         {{ text }}
     </h2>
-    <h3 *ngSwitchCase="'h3'" [ngClass]="[customClass, fontWeightClass]" class="prose-lg text-primary2-500">
+    <h3 *ngSwitchCase="'h3'" [ngClass]="[customClass, fontWeightClass]" class="prose-lg text-primary2-500 text-3xl">
         {{ text }}
     </h3>
-    <h4 *ngSwitchCase="'h4'" [ngClass]="[customClass, fontWeightClass]" class="prose-base text-primary2-500">
+    <h4 *ngSwitchCase="'h4'" [ngClass]="[customClass, fontWeightClass]" class="prose-base text-primary2-500 text-2xl">
         {{ text }}
     </h4>
-    <h5 *ngSwitchCase="'h5'" [ngClass]="[customClass, fontWeightClass]" class="prose-base text-primary2-500">
+    <h5 *ngSwitchCase="'h5'" [ngClass]="[customClass, fontWeightClass]" class="prose-base text-primary2-500 text-xl">
         {{ text }}
     </h5>
-    <h6 *ngSwitchCase="'h6'" [ngClass]="[customClass, fontWeightClass]" class="prose-base text-primary2-500">
+    <h6 *ngSwitchCase="'h6'" [ngClass]="[customClass, fontWeightClass]" class="prose-base text-primary2-500 text-lg">
         {{ text }}
     </h6>
-    <p *ngSwitchCase="'p'" [ngClass]="[customClass, fontWeightClass]" class="prose-base text-primary2-500">
+    <p *ngSwitchCase="'p'" [ngClass]="[customClass, fontWeightClass]" class="prose-base text-primary2-500 text-base">
         {{ text }}
     </p>
-    <span *ngSwitchCase="'span'" [ngClass]="[customClass, fontWeightClass]" class="prose-base text-primary2-500">
+    <span *ngSwitchCase="'span'" [ngClass]="[customClass, fontWeightClass]" class="prose-base text-primary2-500 text-base">
         {{ text}}
     </span>
-    <div *ngSwitchDefault [ngClass]="[customClass, fontWeightClass]" class="prose-base text-primary2-500">
+    <div *ngSwitchDefault [ngClass]="[customClass, fontWeightClass]" class="prose-base text-primary2-500 text-base">
         {{ text }}
     </div>
 </ng-container>

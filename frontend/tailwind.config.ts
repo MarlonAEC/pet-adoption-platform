@@ -81,6 +81,16 @@ const config: Config = {
       fontSize: {
         "2xs": ".625rem",
         "3xs": ".5rem",
+        sm: '14px',
+        base: '16px',
+        lg: '20px',
+        xl: '24px',
+        "2xl": '30px',
+        "3xl": '36px',
+        "4xl": '48px',
+        "5xl": '64px',
+        "6xl": '72px',
+        "7xl": '96px',
       },
       borderRadius: {
         button: "36px",

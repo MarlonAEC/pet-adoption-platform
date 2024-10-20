@@ -1,13 +1,22 @@
 <nav>
-    <ul>
-        <li>
-            <a routerLink="/" routerLinkActive="active" ariaCurrentWhenActive="page">Home</a>
-        </li>
-        <li>
-            <a routerLink="/find-pets" routerLinkActive="active" ariaCurrentWhenActive="page">Find a Pet</a>
-        </li>
-        <li>
-            <a routerLink="/login" routerLinkActive="active" ariaCurrentWhenActive="page">Login</a>
-        </li>
-    </ul>
+    <div class="flex mx-auto px-8 bg-primary1-500 w-full items-center justify-center rounded-b-[70px] h-52">
+        <div class="flex justify-end h-16 self-start max-w-6xl w-full my-4">
+            <div class="flex items-center mx-4 justify-between w-full">
+                <a routerLink="/" routerLinkActive="active" ariaCurrentWhenActive="page">
+                    <img class="w-16 h-16" src="assets/paw-logo.png" alt="paw-logo" />
+                </a>
+                <div class="hidden md:block">
+                    <ul class="flex fitems-baseline ml-10 space-x-4">
+                        @for(menuItem of menuItems; track menuItem.id; let idx = $index){
+                        <li >
+                            <a [routerLink]="menuItem.path" routerLinkActive="active" ariaCurrentWhenActive="page">
+                                <app-typography [text]="menuItem.text" type="span" customClass="text-white"></app-typography>
+                            </a>
+                        </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 </nav>
