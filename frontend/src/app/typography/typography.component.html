@@ -1,11 +1,29 @@
 <ng-container [ngSwitch]="type">
-    <h1 *ngSwitchCase="'h1'" [ngClass]="customClass">{{ text }}</h1>
-    <h2 *ngSwitchCase="'h2'" [ngClass]="customClass">{{ text }}</h2>
-    <h3 *ngSwitchCase="'h3'" [ngClass]="customClass">{{ text }}</h3>
-    <h4 *ngSwitchCase="'h4'" [ngClass]="customClass">{{ text }}</h4>
-    <h5 *ngSwitchCase="'h5'" [ngClass]="customClass">{{ text }}</h5>
-    <h6 *ngSwitchCase="'h6'" [ngClass]="customClass">{{ text }}</h6>
-    <p *ngSwitchCase="'p'" [ngClass]="customClass">{{ text }}</p>
-    <span *ngSwitchCase="'span'" [ngClass]="customClass">{{ text }}</span>
-    <div *ngSwitchDefault [ngClass]="customClass">{{ text }}</div>
+    <h1 *ngSwitchCase="'h1'" [ngClass]="[customClass, fontWeightClass]" class="prose-2xl text-primary2-500">
+        {{ text }}
+    </h1>
+    <h2 *ngSwitchCase="'h2'" [ngClass]="[customClass, fontWeightClass]" class="prose-xl text-primary2-500">
+        {{ text }}
+    </h2>
+    <h3 *ngSwitchCase="'h3'" [ngClass]="[customClass, fontWeightClass]" class="prose-lg text-primary2-500">
+        {{ text }}
+    </h3>
+    <h4 *ngSwitchCase="'h4'" [ngClass]="[customClass, fontWeightClass]" class="prose-base text-primary2-500">
+        {{ text }}
+    </h4>
+    <h5 *ngSwitchCase="'h5'" [ngClass]="[customClass, fontWeightClass]" class="prose-base text-primary2-500">
+        {{ text }}
+    </h5>
+    <h6 *ngSwitchCase="'h6'" [ngClass]="[customClass, fontWeightClass]" class="prose-base text-primary2-500">
+        {{ text }}
+    </h6>
+    <p *ngSwitchCase="'p'" [ngClass]="[customClass, fontWeightClass]" class="prose-base text-primary2-500">
+        {{ text }}
+    </p>
+    <span *ngSwitchCase="'span'" [ngClass]="[customClass, fontWeightClass]" class="prose-base text-primary2-500">
+        {{ text}}
+    </span>
+    <div *ngSwitchDefault [ngClass]="[customClass, fontWeightClass]" class="prose-base text-primary2-500">
+        {{ text }}
+    </div>
 </ng-container>
