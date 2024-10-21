@@ -1,5 +1,6 @@
 package com.example.pet_adoption_platform.services.Authentication;
 
+import com.example.pet_adoption_platform.DTOs.RegisterUserDto;
 import com.example.pet_adoption_platform.entities.Authority;
 import com.example.pet_adoption_platform.entities.AuthorityId;
 import com.example.pet_adoption_platform.entities.User;

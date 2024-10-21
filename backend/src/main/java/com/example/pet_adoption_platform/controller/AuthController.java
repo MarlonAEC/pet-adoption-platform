@@ -2,11 +2,11 @@ package com.example.pet_adoption_platform.controller;
 
 import com.example.pet_adoption_platform.entities.User;
 import com.example.pet_adoption_platform.jwt.JwtUtils;
-import com.example.pet_adoption_platform.jwt.LoginRequest;
-import com.example.pet_adoption_platform.jwt.LoginResponse;
+import com.example.pet_adoption_platform.DTOs.LoginRequestDTO;
+import com.example.pet_adoption_platform.DTOs.LoginResponseDTO;
 import com.example.pet_adoption_platform.repositories.UserRepository;
 import com.example.pet_adoption_platform.services.Authentication.AuthenticationService;
-import com.example.pet_adoption_platform.services.Authentication.RegisterUserDto;
+import com.example.pet_adoption_platform.DTOs.RegisterUserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,7 +41,7 @@ public class AuthController {
     private AuthenticationService authenticationService;
 
     @PostMapping("/login")
-    public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<?> authenticateUser(@RequestBody LoginRequestDTO loginRequest) {
         Authentication authentication;
         try {
             authentication = authenticationManager
@@ -63,7 +63,7 @@ public class AuthController {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
 
-        LoginResponse response = new LoginResponse(userDetails.getUsername(), roles, jwtToken);
+        LoginResponseDTO response = new LoginResponseDTO(userDetails.getUsername(), roles, jwtToken);
 
         return ResponseEntity.ok(response);
     }
@@ -88,7 +88,7 @@ public class AuthController {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
 
-        LoginResponse response = new LoginResponse(userDetails.getUsername(), roles, jwtToken);
+        LoginResponseDTO response = new LoginResponseDTO(userDetails.getUsername(), roles, jwtToken);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 }

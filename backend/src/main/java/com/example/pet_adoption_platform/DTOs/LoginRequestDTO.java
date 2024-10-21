@@ -1,11 +1,11 @@
-package com.example.pet_adoption_platform.jwt;
+package com.example.pet_adoption_platform.DTOs;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class LoginRequest {
+public class LoginRequestDTO {
 
     private String username;
 
