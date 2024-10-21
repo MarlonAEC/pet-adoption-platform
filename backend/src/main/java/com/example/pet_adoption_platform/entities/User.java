@@ -4,16 +4,23 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Set;
+
+@Entity
 @Getter
 @Setter
-@Entity
-@Table(name = "users")
+@Table(name="users")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(nullable = false, length = 50)
+    private String username;
 
-    private String name;
-    private String email;
-    private String address;
+    @Column(nullable = false, length = 500)
+    private String password;
+
+    @Column(nullable = false)
+    private Boolean enabled;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    private Set<Authority> authorities;
 }
