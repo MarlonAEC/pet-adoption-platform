@@ -1,5 +1,6 @@
 package com.example.pet_adoption_platform.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,6 +21,7 @@ public class Authority implements Serializable {
     @MapsId("username")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "username", nullable = false)
+    @JsonBackReference
     private User user;
 }
 

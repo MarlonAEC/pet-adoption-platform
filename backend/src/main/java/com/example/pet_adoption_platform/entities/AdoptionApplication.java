@@ -7,29 +7,23 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "adoption_applications")
 @Getter
 @Setter
-@Table(name = "pets")
-public class Pet {
+public class AdoptionApplication {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 50, nullable = false)
-    private String name;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    @Column(length = 50, nullable = false)
-    private String breed;
+    @ManyToOne
+    @JoinColumn(name = "pet_id")
+    private Pet pet;
 
-    private String species;
-
-    @Column(nullable = false)
-    private Integer age;
-
-    private String description;
-
-    @Column(nullable = false, columnDefinition = "boolean default false")
-    private Boolean adopted;
+    private String status;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

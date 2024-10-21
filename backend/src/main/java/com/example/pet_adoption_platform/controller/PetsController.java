@@ -27,7 +27,7 @@ public class PetsController {
 
     @GetMapping
     public ResponseEntity<Page<Pet>> getAllPets(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size){
-        Pageable pageable = (Pageable) PageRequest.of(page, size);
+        Pageable pageable = PageRequest.of(page, size);
         Page<Pet> pets = petRepository.findAll(pageable);
 
         return ResponseEntity.ok(pets);
