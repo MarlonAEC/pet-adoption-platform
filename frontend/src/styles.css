@@ -2,3 +2,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.fade-in-animation{
+    @apply animate-fade-down animate-once animate-duration-[2000ms] animate-delay-0 animate-ease-out animate-alternate;
+}
+
+img {
+    max-inline-size: 100%;
+    block-size: auto;
+    object-fit: contain;
+}

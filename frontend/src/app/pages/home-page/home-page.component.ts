@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MainLayoutComponent } from '../../layouts/main-layout/main-layout.component';
-import { TypographyComponent } from "../../typography/typography.component";
+import { TypographyComponent } from "../../components/typography/typography.component";
 
 @Component({
   selector: 'app-home-page',

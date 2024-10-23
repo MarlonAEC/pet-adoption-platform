@@ -1,1 +1,139 @@
-<p>login-page works!</p>
+<div class="relative max-w-3xl self-center w-full mx-auto py-8 h-fit rounded-2xl justify-center flex">
+    <div class="absolute inset-0 bg-white flex flex-col items-center justify-center rounded-2xl h-fit py-10 px-10">
+        <div class="self-center mb-6 text-xl font-light text-gray-600 sm:text-2xl dark:text-white fade-in-animation">
+            @if(isSignIn){
+                <app-typography text="Sign in" type="h3"></app-typography>
+            } @else {
+                <app-typography text="Create account" type="h3"></app-typography>
+            }
+        </div>
+        <div class="flex flex-row gap-3 fade-in-animation">
+            <div class="border-r-2 border-r-gray-300/50 px-4">
+                <img ngSrc="assets/img.jpg" width="250" alt="authentication" height="250" priority/>
+            </div>
+            <div class="mt-1 mx-4">
+                @if(isSignIn){
+                <form action="#" autoComplete="off">
+                    <div class="flex flex-col mb-2 gap-4 items-center">
+                        <div class="flex relative flex-col gap-1">
+                            <app-typography text="Username"></app-typography>
+                            <input 
+                                type="text" 
+                                id="sign-in-username"
+                                name="username"
+                                [(ngModel)]="username"
+                                class=" rounded-3xl flex-1 appearance-none border border-primary1-300 w-full py-2 px-4 bg-white text-primary1-500 placeholder-gray-400/50 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent prose-base"
+                                placeholder="Your username" />
+                        </div>
+                        <div class="flex flex-col mb-6">
+                            <div class="flex relative flex-col">
+                                <app-typography text="Password"></app-typography>
+                                <input 
+                                    type="password"
+                                    name="password"
+                                    id="sign-in-password"
+                                    [(ngModel)]="password"
+                                    class=" rounded-3xl flex-1 appearance-none border border-primary1-300 w-full py-2 px-4 bg-white text-primary1-500 placeholder-gray-400/50 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent prose-base"
+                                    placeholder="Your password" />
+                            </div>
+                        </div>
+                        <div class="flex w-fit">
+                            <button type="submit" (click)="handleSignIn()"
+                                class="py-2 px-4 min-w-28 bg-purple-600 hover:bg-purple-700 focus:ring-purple-500 focus:ring-offset-purple-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-2xl ">
+                                <app-typography text="Sign in" type="span"></app-typography>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                } @else {
+                <form action="#" autoComplete="off">
+                    <div class="flex flex-col mb-2 gap-4 items-cente">
+                        <div class="flex flex-row gap-4 items-center">
+                            <div class="flex relative flex-col gap-1">
+                                <app-typography text="Username"></app-typography>
+                                <input 
+                                    type="text" 
+                                    id="sign-up-username"
+                                    name="username"
+                                    [(ngModel)]="username"
+                                    class=" rounded-3xl flex-1 appearance-none border border-primary1-300 w-full py-2 px-4 bg-white text-primary1-500 placeholder-gray-400/50 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent prose-base"
+                                    placeholder="Your username" />
+                                    {{username}}
+                            </div>
+                            <div class="flex flex-col">
+                                <div class="flex relative flex-col">
+                                    <app-typography text="Password"></app-typography>
+                                    <input 
+                                        type="password" 
+                                        id="sign-up-password"
+                                        name="password"
+                                        [(ngModel)]="password"
+                                        class=" rounded-3xl flex-1 appearance-none border border-primary1-300 w-full py-2 px-4 bg-white text-primary1-500 placeholder-gray-400/50 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent prose-base"
+                                        placeholder="Your password" />
+                                        {{password}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-row gap-4 items-center">
+                            <div class="flex flex-col">
+                                <div class="flex relative flex-col">
+                                    <app-typography text="Full name"></app-typography>
+                                    <input 
+                                        type="text" 
+                                        id="sign-up-fullname"
+                                        name="name"
+                                        [(ngModel)]="name"
+                                        class=" rounded-3xl flex-1 appearance-none border border-primary1-300 w-full py-2 px-4 bg-white text-primary1-500 placeholder-gray-400/50 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent prose-base"
+                                        placeholder="Your full name" />
+                                </div>
+                            </div>
+                            <div class="flex flex-col">
+                                <div class="flex relative flex-col">
+                                    <app-typography text="Email"></app-typography>
+                                    <input 
+                                        type="text" 
+                                        id="sign-up-email"
+                                        name="email"
+                                        [(ngModel)]="email"
+                                        class=" rounded-3xl flex-1 appearance-none border border-primary1-300 w-full py-2 px-4 bg-white text-primary1-500 placeholder-gray-400/50 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent prose-base"
+                                        placeholder="Your address" />
+                                </div>
+                            </div>
+                        </div>
+            
+                        <div class="flex flex-col w-full">
+                            <div class="flex relative flex-col w-full">
+                                <app-typography text="Address"></app-typography>
+                                <input 
+                                    type="text" 
+                                    id="sign-up-address"
+                                    name="address"
+                                    [(ngModel)]="address"
+                                    class=" rounded-3xl flex-1 appearance-none border border-primary1-300 w-full py-2 px-4 bg-white text-primary1-500 placeholder-gray-400/50 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent prose-base"
+                                    placeholder="Your address" />
+                            </div>
+                        </div>
+                        <div class="flex w-fit self-center">
+                            <button type="submit" (click)="handleCreateAccount()"
+                                class="py-2 px-4 min-w-28 bg-purple-600 hover:bg-purple-700 focus:ring-purple-500 focus:ring-offset-purple-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-2xl ">
+                                <app-typography text="Sign in" type="span"></app-typography>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                }
+                <div class="flex items-center justify-center mt-6">
+                    <button type="button" (click)="toggleSignIn()"
+                        class="inline-flex items-center text-xs font-thin text-center text-gray-500 hover:text-gray-700 dark:text-gray-100 dark:hover:text-white">
+                        @if(isSignIn){
+                        <app-typography text="You don&#x27;t have an account?" type="span"></app-typography>
+                        } @else {
+                        <app-typography text="Already have an account?" type="span"></app-typography>
+                        }
+                    </button>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
