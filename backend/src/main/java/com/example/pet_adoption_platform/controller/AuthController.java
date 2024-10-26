@@ -101,4 +101,13 @@ public class AuthController {
         LoginResponseDTO response = new LoginResponseDTO(userDetails.getUsername(), roles, jwtToken);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
+
+    @GetMapping("/logout")
+    public ResponseEntity<?> logoutUser(){
+        SecurityContextHolder.clearContext();
+        Map<String, Object> map = new HashMap<>();
+        map.put("message", "User logged out successfully");
+        map.put("status", true);
+        return ResponseEntity.ok(map);
+    }
 }

@@ -1,0 +1,8 @@
+<div class="flex flex-row">
+    @for (filter of filterTopMenu; track $index){
+        @if (filter.type === "select"){
+            <app-dropdown [options]="filter.options" [label]="filter.label" [(value)]="petFilter[filter.name]"></app-dropdown>
+            {{petFilter[filter.name]}}
+        }
+    }
+</div>

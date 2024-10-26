@@ -1,0 +1,18 @@
+<div class="w-64">
+    <div class="relative mt-1">
+        @if(label){
+            <span class="flex items-center">
+                <span class="block ml-3 truncate">
+                    <app-typography text="{{label}}" type="span" customClass="text-primary1-500"></app-typography>
+                </span>
+            </span>
+        }
+        <select [(ngModel)]="value" (ngModelChange)="onChange($event)" name="{{label}}">
+            @for (option of options; track $index) {
+                <option [value]="option.value">
+                    <app-typography text="{{option.label}}" type="span" customClass="text-primary1-500"></app-typography>
+                </option>
+            }
+        </select>
+    </div>
+</div>
