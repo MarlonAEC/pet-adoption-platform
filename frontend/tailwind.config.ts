@@ -76,7 +76,7 @@ const config: Config = {
         xl: "1280px",
       },
       fontFamily: {
-        sans: ["Nunito"],
+        sans: ["Nunito Sans"],
       },
       fontSize: {
         "2xs": ".625rem",
