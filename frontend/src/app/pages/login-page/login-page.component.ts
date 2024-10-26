@@ -3,6 +3,7 @@ import { TypographyComponent } from '../../components/typography/typography.comp
 import { AuthService } from '../../services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { NgOptimizedImage } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-page',
@@ -21,23 +22,39 @@ export class LoginPageComponent {
   errorSigningIn: string = '';
   errorCreatingAccount: string = '';
 
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly router: Router
+  ) {}
 
   toggleSignIn() {
     this.isSignIn = !this.isSignIn;
   }
 
   handleCreateAccount() {
-    console.log('Create account clicked');
+    this.authService.createAccount({
+      username: this.username,
+      password: this.password,
+      name: this.name,
+      email: this.email,
+      address: this.address
+    }).subscribe({
+      next: () => {
+        this.router.navigate(['/find-pets'])
+      },
+      error: (error) => this.errorCreatingAccount = error.error.message,
+    })
   }
 
   handleSignIn() {
-    console.log(this.username, this.password);
     this.authService.login({
       username: this.username,
       password: this.password
     }).subscribe({
-      error: (error) => this.errorSigningIn = error
+      next: () => {
+        this.router.navigate(['/find-pets'])
+      },
+      error: (error) => this.errorSigningIn = error.error.message,
     });
   }
 }

@@ -8,3 +8,11 @@ export interface AuthRequest {
     username: string;
     password: string;
 }
+
+export interface User {
+    username: string;
+    email: string;
+    address: string;
+    name: string;
+    password: string;
+}
