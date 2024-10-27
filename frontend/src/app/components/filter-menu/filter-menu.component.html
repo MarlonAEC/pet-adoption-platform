@@ -1,8 +1,18 @@
-<div class="flex flex-row">
+<div class="flex flex-row justify-between w-ful items-end gap-4">
     @for (filter of filterTopMenu; track $index){
+        <div class="flex flex-col">
         @if (filter.type === "select"){
-            <app-dropdown [options]="filter.options" [label]="filter.label" [(value)]="petFilter[filter.name]"></app-dropdown>
-            {{petFilter[filter.name]}}
+            <app-dropdown [options]="filter.options" [label]="filter.label" [formControl]="filter.control" selectId="filter.label"></app-dropdown>
+        } @else if (filter.type === "input") {
+            <app-input-with-icon 
+                svgPath="assets/icons/location-icon.svg" 
+                type="text"
+                inputId="filter.label"
+                [label]="filter.label"
+                [formControl]="filter.control"
+            ></app-input-with-icon>
         }
+        </div>
     }
+    <app-button [label]="buttonLabel"></app-button>
 </div>

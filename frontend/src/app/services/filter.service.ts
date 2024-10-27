@@ -9,6 +9,7 @@ export class FilterService {
   private readonly filterSource = new BehaviorSubject<PetFilter>({
     breed: '',
     age: '',
+    postalCode: '',
   });
   currentFilter = this.filterSource.asObservable();
 

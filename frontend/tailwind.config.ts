@@ -42,6 +42,7 @@ const secondary1Variants = generateColorScale("#36DBFF");
 const secondary2Variants = generateColorScale("#19BC90");
 const neutral1Variants = generateColorScale("#0C0C20");
 const neutral2Variants = generateColorScale("#F6FAF9");
+const neutral3Variants = generateColorScale("#8892A5");
 
 const config: Config = {
   darkMode: "class",
@@ -62,6 +63,7 @@ const config: Config = {
         secondary2: { ...secondary2Variants },
         neutral1: { ...neutral1Variants },
         neutral2: { ...neutral2Variants },
+        neutral3: { ...neutral3Variants },
         gradient1From: '#FD48D1',
         gradient1To: '#FC6D71',
         gradient2From: '#3699FF',

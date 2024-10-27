@@ -1,16 +1,18 @@
 import { Component } from '@angular/core';
 import { FilterService } from '../../services/filter.service';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TypographyComponent } from '../typography/typography.component';
 import { PetFilter, PetFilterName } from '../../models/filter.model';
 import { DropdownComponent } from '../dropdown/dropdown.component';
 import { FilterMenu, FilterType } from '../../models/ui.model';
+import { InputWithIconComponent } from "../input-with-icon/input-with-icon.component";
+import { ButtonComponent } from "../button/button.component";
 
 
 @Component({
   selector: 'app-filter-menu',
   standalone: true,
-  imports: [FormsModule, TypographyComponent, DropdownComponent],
+  imports: [ReactiveFormsModule, FormsModule, TypographyComponent, DropdownComponent, InputWithIconComponent, ButtonComponent],
   templateUrl: './filter-menu.component.html',
   styleUrl: './filter-menu.component.css'
 })
@@ -18,13 +20,20 @@ export class FilterMenuComponent {
   petFilter: PetFilter = {
     breed: 'as',
     age: '',
+    postalCode: '',
   };
+
+  breed = new FormControl('');
+  age = new FormControl('');
+  postalCode = new FormControl('');
+  buttonLabel = 'Filter';
 
   filterTopMenu: FilterMenu[] = [
     {
       type: FilterType.SELECT,
       label: 'Breed',
       name: PetFilterName.BREED,
+      control: this.breed,
       options: [
         {value: '', label: 'Select an option'},
         {value: 'malamute', label: 'Malamute'},
@@ -38,6 +47,7 @@ export class FilterMenuComponent {
       type: FilterType.SELECT,
       name: PetFilterName.AGE,
       label: 'Age',
+      control: this.age,
       options: [
         {value: '', label: 'Select an option'},
         {value: 'puppy', label: 'less than 1 year'},
@@ -45,6 +55,12 @@ export class FilterMenuComponent {
         {value: 'adult', label: '4 years to 8 years'},
         {value: 'senior', label: '8 years or older'},
       ]
+    },
+    {
+      type: FilterType.INPUT,
+      name: PetFilterName.POSTAL_CODE,
+      label: 'Postal Code',
+      control: this.postalCode,
     },
   ];
 

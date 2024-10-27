@@ -1,6 +1,7 @@
+import { FormControl } from "@angular/forms";
 import { PetFilterName } from "./filter.model";
 
-export interface Option {
+export interface SelectOption {
   label: string;
   value: string;
 }
@@ -8,18 +9,20 @@ export interface Option {
 export const enum FilterType {
     SELECT = 'select',
     RANGE ='range',
-    SCALE = 'scale'
+    SCALE = 'scale',
+    INPUT = 'input',
 }
 
 export interface BaseFilterMenu {
     type: FilterType;
     label: string;
     name: PetFilterName;
+    control: FormControl;
 }
 
 export interface SelectFilterMenu extends BaseFilterMenu {
     type: FilterType.SELECT;
-    options: Option[];
+    options: SelectOption[];
 }
 
 export interface RangeFilterMenu extends BaseFilterMenu {
@@ -33,4 +36,8 @@ export interface ScaleFilterMenu extends BaseFilterMenu {
     scale: number;
 }
 
-export type FilterMenu = SelectFilterMenu | RangeFilterMenu | ScaleFilterMenu;
+export interface InputFilterMenu extends BaseFilterMenu {
+    type: FilterType.INPUT;
+}
+
+export type FilterMenu = SelectFilterMenu | RangeFilterMenu | ScaleFilterMenu | InputFilterMenu;
