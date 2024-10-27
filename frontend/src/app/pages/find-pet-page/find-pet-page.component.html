@@ -1,10 +1,18 @@
-<div class="relative self-center w-full py-8 h-fit rounded-2xl justify-center flex flex-col px-20">
+<div class="relative self-center w-full py-8 h-screen rounded-2xl flex flex-col items-start">
     <div class="absolute inset-0 bg-white w-full flex flex-col items-center justify-center rounded-2xl h-fit py-10 px-10">
         <div class="self-center mb-6 text-xl font-light text-gray-600 sm:text-2xl dark:text-white fade-in-animation items-center justify-center">
             <app-typography text="Main Paw Portal" type="h4" customClass="text-primary1-600 font-bold"></app-typography>
         </div>
         <div class="w-full">
             <app-filter-menu></app-filter-menu>
+        </div>
+    </div>
+    <div class="relative inset-0 top-56 gap-4 w-full flex flex-row mx-auto justify-between">
+        <div class="side-bar-container h-fit bg-white w-1/6 flex flex-col">Side Bar</div>
+        <div class="page-content-container h-fit bg-transparent w-5/6 flex flex-col">
+            @for (pet of pets; track $index) {
+            <app-pet-card [pet]="pet"></app-pet-card>
+            }
         </div>
     </div>
 </div>

@@ -8,6 +8,8 @@ export interface Pet {
     adopted: boolean;
     createdAt: string;
     updatedAt: string;
+    address: string;
+    img: string;
 }
 
 export interface Sort {
