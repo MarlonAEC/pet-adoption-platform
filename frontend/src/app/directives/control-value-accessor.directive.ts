@@ -7,7 +7,7 @@ import { distinctUntilChanged, startWith, Subject, takeUntil, tap } from 'rxjs';
   standalone: true
 })
 export class ControlValueAccessorDirective<T> implements ControlValueAccessor, OnInit{
-  control: FormControl | undefined;
+  control: FormControl<T | null> | undefined;
   isRequired: boolean = false;
   private _isDisabled: boolean = false;
   private readonly _destroy$ = new Subject<void>();
@@ -37,11 +37,11 @@ export class ControlValueAccessorDirective<T> implements ControlValueAccessor, O
     }
   }
 
-  writeValue(value: string): void {
+  writeValue(value: T): void {
     if (this.control) {
       this.control.setValue(value);
     } else {
-      this.control = new FormControl(value);
+      this.control = new FormControl<T | null>(value);
     }
   }
 

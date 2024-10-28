@@ -2,13 +2,14 @@ import { Component, forwardRef, Input} from '@angular/core';
 import {  FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { ControlValueAccessorDirective } from '../../directives/control-value-accessor.directive';
 import { CommonModule } from '@angular/common';
+import { TypographyComponent } from "../typography/typography.component";
 
 type InputType = 'text' | 'password' | 'email' | 'number' | 'tel' | 'url';
 
 @Component({
   selector: 'app-input-with-icon',
   standalone: true,
-  imports: [ReactiveFormsModule, FormsModule, CommonModule],
+  imports: [ReactiveFormsModule, FormsModule, CommonModule, TypographyComponent],
   templateUrl: './input-with-icon.component.html',
   styleUrl: './input-with-icon.component.css',
   providers: [

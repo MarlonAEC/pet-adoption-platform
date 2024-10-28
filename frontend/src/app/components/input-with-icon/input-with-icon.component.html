@@ -1,14 +1,16 @@
-<div class="flex flex-col relative gap-3" *ngIf="control">
-    <label [for]="inputId">{{ label }}</label>
-    <div class="relative flex">
+<div class="flex flex-col relative gap-1 border-none" *ngIf="control">
+    <label [for]="inputId">
+        <app-typography text="{{ label }}" type="span" customClass="text-neutral-600"></app-typography>
+    </label>
+    <div class="relative flex border-none">
         <span
-            class="rounded-l-xl inline-flex  items-center px-3 bg-neutral3-200 text-gray-500 shadow-sm text-sm">
+            class="rounded-l-xl inline-flex items-center px-3 bg-neutral2-500 text-gray-400 shadow-sm text-sm">
             <img [src]="svgPath" alt="input icon" width="16" height="16"/>
         </span>
         <input 
             [type]="type" 
             [id]="inputId"
-            class="rounded-r-xl flex-1 appearance-none border w-40 py-2 px-4 bg-neutral3-200 text-primary1-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+            class="rounded-r-xl flex-1 appearance-none w-40 px-4 bg-neutral2-500 border-none text-neutral-600 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
             [name]="label"
             [placeholder]="placeholder"
             [formControl]="control"

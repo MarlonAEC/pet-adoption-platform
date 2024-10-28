@@ -1,0 +1,29 @@
+import { Component, Inject, Injector, Input, OnInit } from '@angular/core';
+import { TypographyComponent } from "../typography/typography.component";
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { ControlValueAccessorDirective } from '../../directives/control-value-accessor.directive';
+
+@Component({
+  selector: 'app-line-selector',
+  standalone: true,
+  imports: [ReactiveFormsModule, FormsModule, CommonModule, TypographyComponent],
+  templateUrl: './line-selector.component.html',
+  styleUrl: './line-selector.component.css'
+})
+export class LineSelectorComponent extends ControlValueAccessorDirective<number> {
+  @Input() labelStart: string = '';
+  @Input() labelEnd: string = '';
+  @Input() rangeId: string = '';
+  @Input() name: string = '';
+  min: number = 1;
+  max: number = 5;
+  steps: number[] = [1, 2, 3, 4, 5];
+
+  override ngOnInit(): void {
+      super.ngOnInit();
+      if(this.control){
+        this.control.setValue(3);
+      }
+  }
+}

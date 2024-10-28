@@ -8,8 +8,10 @@
         </div>
     </div>
     <div class="relative inset-0 top-56 gap-4 w-full flex flex-row mx-auto justify-between">
-        <div class="side-bar-container h-fit bg-white w-1/6 flex flex-col">Side Bar</div>
-        <div class="page-content-container h-fit bg-transparent w-5/6 flex flex-col">
+        <div class="side-bar-container h-fit bg-white p-2 flex flex-col rounded-2xl min-w-72">
+            <app-side-filter></app-side-filter>
+        </div>
+        <div class="page-content-container h-fit bg-transparent w-5/6 flex flex-row flex-wrap gap-4 justify-between">
             @for (pet of pets; track $index) {
             <app-pet-card [pet]="pet"></app-pet-card>
             }

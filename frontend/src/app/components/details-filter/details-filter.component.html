@@ -1,0 +1,13 @@
+<div class="details-control bg-white w-full flex-col px-4 py-6" *ngIf="control">
+    <app-typography *ngIf="label" text="{{label}}" type="h6"></app-typography>
+    <div class="checkboxes-container flex flex-col ">
+        @for(option of options; track $index; let i = $index) {
+            <div class="flex flex-row-reverse justify-end px-4 gap-2 items-center py-1">
+                <label [for]="detailsFilterId + '-' + option" class="">
+                    <app-typography text="{{option}}" type="span"></app-typography>
+                </label>
+                <input type="checkbox" [formControl]="control" [id]="detailsFilterId + '-' + option" [checked]="options[i]" class="w-4 h-4 text-primary1-400 rounded focus:ring-primary1-500 dark:focus:ring-primary1-600">
+            </div>
+        }
+    </div>
+</div>
