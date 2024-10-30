@@ -47,6 +47,7 @@ public class SecurityConfig {
                         .requestMatchers("/auth/login").permitAll()
                         .requestMatchers("/auth/sign-up").permitAll()
                         .requestMatchers("/pets").permitAll()
+                        .requestMatchers("/pets/filter").permitAll()
                         .requestMatchers("/pets/{id}").permitAll()
                         .requestMatchers("/").permitAll()
                         .anyRequest().authenticated())

@@ -37,3 +37,11 @@ export enum AvailableTemperamentFilters {
 export type TemperamentFilter = {
     [key in AvailableTemperamentFilters]: number;
 };
+
+export interface CompletePetFilter {
+    regularFilter: PetFilter;
+    detailsFilter: {
+        [key in AvailableDetails]: boolean;
+    };
+    temperamentFilter: TemperamentFilter;
+}
