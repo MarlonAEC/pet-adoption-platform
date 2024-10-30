@@ -45,3 +45,26 @@ export interface CompletePetFilter {
     };
     temperamentFilter: TemperamentFilter;
 }
+
+export interface DatabasePetFilter {
+    species: string | null;
+    breed: string | null;
+    age: number | null;
+    value: number | null;
+    temperament_how_calmed: number | null;
+    temperament_how_social: number | null;
+    temperament_how_attention_seeking: number | null;
+    temperament_how_active: number | null;
+    temperament_how_loud: number | null;
+    is_vaccinated: boolean | null,
+    is_spayed: boolean | null,
+    is_house_trained: boolean | null,
+    is_wormed: boolean | null,
+    is_good_with_kids: boolean | null,
+    is_good_with_dogs: boolean | null,
+    is_good_with_cats: boolean | null,
+    is_declawed: boolean | null,
+    needs_experienced_owner: boolean | null,
+    postal_code: string | null,
+    address: string | null,
+}

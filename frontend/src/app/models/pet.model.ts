@@ -10,6 +10,22 @@ export interface Pet {
     updatedAt: string;
     address: string;
     img: string;
+    value: number;
+    temperament_how_calmed: number;
+    temperament_how_social: number;
+    temperament_how_attention_seeking: number;
+    temperament_how_active: number;
+    temperament_how_loud: number;
+    needs_experienced_owner: boolean;
+    postal_code: string;
+    _house_trained: boolean;
+    _declawed: boolean;
+    _good_with_kids: boolean;
+    _good_with_dogs: boolean;
+    _good_with_cats: boolean;
+    _spayed: boolean;
+    _vaccinated: boolean;
+    _wormed: boolean;
 }
 
 export interface Sort {
