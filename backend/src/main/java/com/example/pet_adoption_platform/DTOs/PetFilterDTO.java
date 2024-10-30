@@ -7,6 +7,8 @@ import lombok.Setter;
 @Setter
 public class PetFilterDTO {
 
+        private Float value;
+
         private String species;
 
         private String breed;

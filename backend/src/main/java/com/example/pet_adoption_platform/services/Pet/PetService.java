@@ -37,7 +37,7 @@ public class PetService {
     }
 
     public Page<Pet> applyFilter(String jsonString, Pageable pageable) throws JsonProcessingException {
-        var filter = objectMapper.readValue(jsonString, Map.class);
+        Map<String, Object> filter = objectMapper.readValue(jsonString, Map.class);
 
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Pet> query = criteriaBuilder.createQuery(Pet.class);
@@ -45,7 +45,15 @@ public class PetService {
 
         List<Predicate> predicates = new ArrayList<>();
 
-        filter.forEach((key, value) -> predicates.add(criteriaBuilder.equal(pet.get(key.toString()), value)));
+        filter.forEach((key, value) -> {
+            if (key.startsWith("temperament_") && value instanceof Integer) {
+                predicates.add(criteriaBuilder.lessThanOrEqualTo(pet.get(key), (Integer) value));
+            } else if(value instanceof String && value != "") {
+                predicates.add(criteriaBuilder.equal(pet.get(key), value));
+            } else if(value instanceof Boolean) {
+                predicates.add(criteriaBuilder.equal(pet.get(key), value));
+            }
+        });
 
         query.where(predicates.toArray(new Predicate[0]));
 
@@ -87,7 +95,7 @@ public class PetService {
                 Field field = filter.getClass().getDeclaredField(key);
                 field.setAccessible(true);
                 Object value = field.get(filter);
-                if (!expectedType.isInstance(value)) {
+                if (value != null && !expectedType.isInstance(value)) {
                     return false;
                 }
             } catch (NoSuchFieldException | IllegalAccessException e) {

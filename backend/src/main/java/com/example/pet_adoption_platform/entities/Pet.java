@@ -27,7 +27,7 @@ public class Pet {
     private Integer age;
 
     @Column(nullable = false)
-    private Integer value;
+    private Float value;
 
     private Integer temperament_how_calmed;
 
