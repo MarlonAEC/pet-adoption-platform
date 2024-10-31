@@ -27,10 +27,28 @@ export class FindPetPageComponent implements OnInit {
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
-    this.petService.getAllPets(this.currentPage, this.size).subscribe({
-      next: (response) => {
-          this.pets = response.content;
-          console.log(this.pets);
+
+    this.filterService.currentFilterHash.subscribe({
+      next: (hash) => {
+        if(hash){
+          console.log("HASH: ",hash);
+          if(this.filterService.isCurrentFilterEmpty()){
+            this.petService.getAllPets(this.currentPage, this.size).subscribe({
+              next: (response) => {
+                  this.pets = response.content;
+                  console.log(this.pets);
+              }
+            });
+          } else {
+            this.petService.getPetsByFilter(hash, this.currentPage, this.size).subscribe({
+              next: (response) => {
+                console.log("🚀 ~ FindPetPageComponent ~ this.petService.getPetsByFilter ~ response:", response)
+                this.pets = response.content;
+                console.log("PETS: ",this.pets);
+              }
+            }); 
+          }
+        }
       }
     })
   }

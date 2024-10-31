@@ -2,9 +2,9 @@
     <div>
         <app-typography text="Temperament" type="h6"></app-typography>
     </div>
-    <app-line-selector labelStart="Chilled" labelEnd="Hyper"></app-line-selector>
-    <app-line-selector labelStart="Cuddler" labelEnd="Independent"></app-line-selector>
-    <app-line-selector labelStart="Happy Alone" labelEnd="Separation Anxiety"></app-line-selector>
-    <app-line-selector labelStart="Low Exercise" labelEnd="High Exercise"></app-line-selector>
-    <app-line-selector labelStart="Quiet" labelEnd="Noisy"></app-line-selector>
+    <app-line-selector labelStart="Chilled" labelEnd="Hyper" [formControl]="temperamentHowCalmed"></app-line-selector>
+    <app-line-selector labelStart="Cuddler" labelEnd="Independent" [formControl]="temperamentHowAttentionSeeking"></app-line-selector>
+    <app-line-selector labelStart="Happy Alone" labelEnd="Separation Anxiety" [formControl]="temperamentHowSocial"></app-line-selector>
+    <app-line-selector labelStart="Low Exercise" labelEnd="High Exercise" [formControl]="temperamentHowActive"></app-line-selector>
+    <app-line-selector labelStart="Quiet" labelEnd="Noisy" [formControl]="temperamentHowLoud"></app-line-selector>
 </div>

@@ -162,7 +162,7 @@ public class PetsController {
         }
     }
 
-    @PostMapping("{id/upload-image}")
+    @PostMapping("{id}/upload-image")
     public ResponseEntity<?> uploadImage(@PathVariable Long id, @RequestParam("image") MultipartFile file) {
         Optional<Pet> optionalPet = petRepository.findById(String.valueOf(id));
         if (optionalPet.isPresent()) {

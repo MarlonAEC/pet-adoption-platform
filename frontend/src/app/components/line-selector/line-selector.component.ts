@@ -1,4 +1,4 @@
-import { Component, Inject, Injector, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { TypographyComponent } from "../typography/typography.component";
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -19,11 +19,4 @@ export class LineSelectorComponent extends ControlValueAccessorDirective<number>
   min: number = 1;
   max: number = 5;
   steps: number[] = [1, 2, 3, 4, 5];
-
-  override ngOnInit(): void {
-      super.ngOnInit();
-      if(this.control){
-        this.control.setValue(3);
-      }
-  }
 }

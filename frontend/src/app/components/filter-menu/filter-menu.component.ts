@@ -19,8 +19,10 @@ import { ButtonComponent } from "../button/button.component";
 export class FilterMenuComponent {
   petFilter: PetFilter = {
     breed: 'as',
-    age: '',
+    age: null,
     postalCode: '',
+    species: null,
+    value: null,
   };
 
   breed = new FormControl('');
@@ -70,15 +72,15 @@ export class FilterMenuComponent {
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
-    this.filterService.currentFilter.subscribe(filter => {
-      this.petFilter = filter;
-    });
+    // this.filterService.currentFilter.subscribe(filter => {
+    //   this.petFilter = filter;
+    // });
   }
 
   onUpdateFilter(filterName: string, value: string) {
-    console.log("🚀 ~ FilterMenuComponent ~ onUpdateFilter ~ filterName", filterName);
-    if (this.petFilter[filterName as keyof PetFilter] !== value) {
-      this.filterService.updateFilter(filterName, value);
-    }
+    // console.log("🚀 ~ FilterMenuComponent ~ onUpdateFilter ~ filterName", filterName);
+    // if (this.petFilter[filterName as keyof PetFilter] !== value) {
+    //   this.filterService.updateFilter(filterName, value);
+    // }
   }
 }

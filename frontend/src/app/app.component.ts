@@ -22,29 +22,4 @@ export class AppComponent {
   ) {
 
   }
-  // Function to handle the click event
-  handleClick() {
-    console.log('Button clicked');
-  }
-
-  ngOnInit(): void {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
-    console.log('App component initialized');
-    this.petService.getAllPets(0, 10).subscribe({
-        next: (data) => this.pets = data.content,
-        error: (error) => console.error(error)
-    });
-
-    this.authService.login({
-        username: 'user1',
-        password: 'password1'
-    }).subscribe({
-        next: (data) => {
-            console.log(data);
-            this.isButtonDisabled = false;
-        },
-        error: (error) => console.error(error)
-    });
-  }
 }
