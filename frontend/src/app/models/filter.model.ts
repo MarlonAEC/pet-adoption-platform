@@ -26,19 +26,17 @@ export enum AvailableDetails {
     NEEDS_EXP_ADOPT = 'needs_experienced_owner',
 }
 
-// export enum AvailableDetails {
-//     KIDS = 'Good with kids',
-//     CATS = 'Good with cats',
-//     DOGS = 'Good with dogs',
-//     HOUSE_TRAINED = 'House trained',
-//     DECLAWED = 'Declawed',
-//     SPECIAL_NEEDS = 'Special needs',
-//     SPAYED = 'Spayed',
-//     VACCINATED = 'Vaccinated',
-//     WORMED = 'Wormed',
-//     NEEDS_EXP_ADOPT = 'Needs experienced adopter',
-//     LIKES_FETCH = 'Likes to fetch',
-// }
+export enum MapAvailableDetails {
+    is_good_with_kids = 'Good with kids',
+    is_good_with_cats = 'Good with cats',
+    is_good_with_dogs = 'Good with dogs',
+    is_house_trained = 'House trained',
+    is_declawed = 'Declawed',
+    is_spayed = 'Spayed',
+    is_vaccinated = 'Vaccinated',
+    is_wormed = 'Wormed',
+    needs_experienced_owner = 'Needs experienced adopter',
+}
 
 export enum AvailableTemperamentFilters {
     HOW_CALMED = 'temperament_how_calmed',

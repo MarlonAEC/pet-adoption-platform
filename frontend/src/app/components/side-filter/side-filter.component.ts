@@ -1,8 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { DetailsFilterComponent } from "../details-filter/details-filter.component";
 import { TemperamentFilterComponent } from "../temperament-filter/temperament-filter.component";
-import { FormControl } from '@angular/forms';
-import { AvailableTemperamentFilters, TemperamentFilter } from '../../models/filter.model';
 import { FilterService } from '../../services/filter.service';
 @Component({
   selector: 'app-side-filter',

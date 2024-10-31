@@ -50,8 +50,8 @@ public class PetService {
                 predicates.add(criteriaBuilder.lessThanOrEqualTo(pet.get(key), (Integer) value));
             } else if(value instanceof String && value != "") {
                 predicates.add(criteriaBuilder.equal(pet.get(key), value));
-            } else if(value instanceof Boolean) {
-                predicates.add(criteriaBuilder.equal(pet.get(key), value));
+            } else if(value instanceof Boolean && Boolean.TRUE.equals(value)) {
+                predicates.add(criteriaBuilder.equal(pet.get(key), true));
             }
         });
 

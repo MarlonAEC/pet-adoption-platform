@@ -10,6 +10,7 @@
                 [max]="max"
                 [formControl]="control"
                 class="styled-slider slider-progress w-full cursor-pointer accent-primary1-400 bg-gray-300 rounded-lg z-0"
+                ngDefaultControl
             >
             <div class="w-full flex justify-between left-0 right-0 absolute top-[2px] z-0 pointer-events-none" *ngIf="control.value">
                 <div  *ngFor="let step of steps" class="w-3 h-3 rounded-full" [ngClass]="{

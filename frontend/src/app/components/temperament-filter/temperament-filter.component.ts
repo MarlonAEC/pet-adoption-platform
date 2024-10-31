@@ -4,7 +4,7 @@ import { LineSelectorComponent } from "../line-selector/line-selector.component"
 import { FilterService } from '../../services/filter.service';
 import { FormControl, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { TemperamentFilter } from '../../models/filter.model';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, debounceTime, merge } from 'rxjs';
 
 @Component({
   selector: 'app-temperament-filter',
@@ -33,35 +33,23 @@ export class TemperamentFilterComponent implements OnInit{
   temperament = this.temperamentSource.asObservable();
 
   ngOnInit(): void {
-    this.temperamentHowActive.valueChanges.subscribe((value) => {
-      this.temperamentSource.next({
-        ...this.temperamentSource.value,
-        temperament_how_active: value
-      })
-    });
-    this.temperamentHowAttentionSeeking.valueChanges.subscribe((value) => {
-      this.temperamentSource.next({
-        ...this.temperamentSource.value,
-        temperament_how_attention_seeking: value
-      })
-    });
-    this.temperamentHowCalmed.valueChanges.subscribe((value) => {
-      this.temperamentSource.next({
-        ...this.temperamentSource.value,
-        temperament_how_calmed: value
-      })
-    });
-    this.temperamentHowLoud.valueChanges.subscribe((value) => {
-      this.temperamentSource.next({
-        ...this.temperamentSource.value,
-        temperament_how_loud: value
-      })
-    });
-    this.temperamentHowSocial.valueChanges.subscribe((value) => {
-      this.temperamentSource.next({
-        ...this.temperamentSource.value,
-        temperament_how_social: value
-      })
+    merge(
+      this.temperamentHowCalmed.valueChanges,
+      this.temperamentHowSocial.valueChanges,
+      this.temperamentHowAttentionSeeking.valueChanges,
+      this.temperamentHowActive.valueChanges,
+      this.temperamentHowLoud.valueChanges
+    ).pipe(
+      debounceTime(300) // Adjust the debounce time as needed
+    ).subscribe(() => {
+      const newDetails: TemperamentFilter = {
+        temperament_how_calmed: this.temperamentHowCalmed.value,
+        temperament_how_social: this.temperamentHowSocial.value,
+        temperament_how_attention_seeking: this.temperamentHowAttentionSeeking.value,
+        temperament_how_active: this.temperamentHowActive.value,
+        temperament_how_loud: this.temperamentHowLoud.value
+      };
+      this.temperamentSource.next(newDetails);
     });
 
     // Updating the service and calling the API
