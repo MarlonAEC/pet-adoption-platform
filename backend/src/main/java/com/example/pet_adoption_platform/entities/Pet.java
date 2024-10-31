@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -65,6 +66,9 @@ public class Pet {
 
     @Column(nullable = false, columnDefinition = "boolean default false")
     private Boolean adopted;
+
+    @OneToMany(mappedBy = "pet", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Image> images;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

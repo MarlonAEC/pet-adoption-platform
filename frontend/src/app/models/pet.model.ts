@@ -9,7 +9,7 @@ export interface Pet {
     createdAt: string;
     updatedAt: string;
     address: string;
-    img: string;
+    images: string[];
     value: number;
     temperament_how_calmed: number;
     temperament_how_social: number;

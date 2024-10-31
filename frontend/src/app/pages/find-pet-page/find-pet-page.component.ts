@@ -16,6 +16,8 @@ import { PetService } from '../../services/pet.service';
 })
 export class FindPetPageComponent implements OnInit {
   pets: Pet[] = [];
+  currentPage: number = 0;
+  size: number = 12;
 
   constructor(
     private readonly filterService: FilterService,
@@ -25,9 +27,10 @@ export class FindPetPageComponent implements OnInit {
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
-    this.petService.getAllPets().subscribe({
+    this.petService.getAllPets(this.currentPage, this.size).subscribe({
       next: (response) => {
           this.pets = response.content;
+          console.log(this.pets);
       }
     })
   }

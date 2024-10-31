@@ -2,8 +2,10 @@ package com.example.pet_adoption_platform.controller;
 
 import com.example.pet_adoption_platform.DTOs.PetFilterDTO;
 import com.example.pet_adoption_platform.DTOs.UpdatePetDTO;
+import com.example.pet_adoption_platform.entities.Image;
 import com.example.pet_adoption_platform.entities.Pet;
 import com.example.pet_adoption_platform.entities.PetFilterHash;
+import com.example.pet_adoption_platform.repositories.ImageRepository;
 import com.example.pet_adoption_platform.repositories.PetFilterHashRepository;
 import com.example.pet_adoption_platform.repositories.PetsRepository;
 import com.example.pet_adoption_platform.services.Pet.PetService;
@@ -21,10 +23,16 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.DigestUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/pets")
@@ -39,6 +47,9 @@ public class PetsController {
 
     @Autowired
     private PetFilterHashRepository petFilterHashRepository;
+
+    @Autowired
+    private ImageRepository imageRepository;
 
     @GetMapping
     public ResponseEntity<?> getAllPets(
@@ -148,6 +159,32 @@ public class PetsController {
             Map<String, String> response = new HashMap<>();
             response.put("message", "Pet with ID " + id + " not found");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        }
+    }
+
+    @PostMapping("{id/upload-image}")
+    public ResponseEntity<?> uploadImage(@PathVariable Long id, @RequestParam("image") MultipartFile file) {
+        Optional<Pet> optionalPet = petRepository.findById(String.valueOf(id));
+        if (optionalPet.isPresent()) {
+            Pet pet = optionalPet.get();
+            try {
+                String filename = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+                Path imagePath = Paths.get("public/images/" + filename);
+                Files.createDirectories(imagePath.getParent());
+                Files.write(imagePath, file.getBytes());
+
+                Image image = new Image();
+                image.setData(file.getBytes());
+                image.setUrl("/images/" + filename);
+                image.setPet(pet);
+                imageRepository.save(image);
+
+                return ResponseEntity.status(HttpStatus.CREATED).body("Image uploaded successfully");
+            } catch (IOException e) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading image");
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Pet not found");
         }
     }
 }

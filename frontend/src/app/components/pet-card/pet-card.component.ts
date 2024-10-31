@@ -22,7 +22,7 @@ export class PetCardComponent {
     createdAt: '',
     updatedAt: '',
     address: '',
-    img: '',
+    images: [],
     value: 0,
     temperament_how_calmed: 0,
     temperament_how_social: 0,
@@ -40,4 +40,5 @@ export class PetCardComponent {
     _vaccinated: false,
     _wormed: false
   };
+  imageToDisplay: string = this.pet.images[0] ?? '/assets/placeholder.svg';
 }
