@@ -6,23 +6,54 @@ import { PetCardComponent } from '../../components/pet-card/pet-card.component';
 import { SideFilterComponent } from "../../components/side-filter/side-filter.component";
 import { FilterService } from '../../services/filter.service';
 import { PetService } from '../../services/pet.service';
+import { PageHandlerComponent } from '../../components/page-handler/page-handler.component';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-find-pet-page',
   standalone: true,
-  imports: [TypographyComponent, FilterMenuComponent, PetCardComponent, SideFilterComponent],
+  imports: [TypographyComponent, FilterMenuComponent, PetCardComponent, SideFilterComponent, PageHandlerComponent],
   templateUrl: './find-pet-page.component.html',
   styleUrl: './find-pet-page.component.css'
 })
 export class FindPetPageComponent implements OnInit {
   pets: Pet[] = [];
-  currentPage: number = 0;
   size: number = 12;
+  totalPages: number = 0;
+
+  private readonly currentPageSubject = new BehaviorSubject<number>(0);
+  currentPage$ = this.currentPageSubject.asObservable();
 
   constructor(
     private readonly filterService: FilterService,
     private readonly petService: PetService
   ) {}
+
+  set currentPage(value: number) {
+    this.currentPageSubject.next(value);
+  }
+
+  get currentPage(): number {
+    return this.currentPageSubject.value;
+  }
+
+  incrementPage(): void {
+    console.log("incrementing page");
+    if(this.currentPage < this.totalPages - 1)
+      this.currentPageSubject.next(this.currentPage + 1);
+  }
+
+  decrementPage(): void {
+    console.log("decrementing page");
+    if(this.currentPage > 0)
+      this.currentPageSubject.next(this.currentPage - 1);
+  }
+
+  navigateToPage(page: number): void {
+    console.log("navigating to page", page);
+    if(page <= this.totalPages && page > 0)
+      this.currentPageSubject.next(page);
+  }
 
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
@@ -30,26 +61,36 @@ export class FindPetPageComponent implements OnInit {
 
     this.filterService.currentFilterHash.subscribe({
       next: (hash) => {
-        if(hash){
-          console.log("HASH: ",hash);
-          if(this.filterService.isCurrentFilterEmpty()){
-            this.petService.getAllPets(this.currentPage, this.size).subscribe({
-              next: (response) => {
-                  this.pets = response.content;
-                  console.log(this.pets);
-              }
-            });
-          } else {
-            this.petService.getPetsByFilter(hash, this.currentPage, this.size).subscribe({
-              next: (response) => {
-                console.log("🚀 ~ FindPetPageComponent ~ this.petService.getPetsByFilter ~ response:", response)
-                this.pets = response.content;
-                console.log("PETS: ",this.pets);
-              }
-            }); 
-          }
-        }
+        this.fetchPets(hash);
       }
-    })
+    });
+
+    this.currentPage$.subscribe({
+      next: (page) => {
+        console.log(page);
+        this.fetchPets(this.filterService.getCurrentFilterHash());
+      }
+    }); 
+  }
+
+  private fetchPets(hash: string): void {
+    console.log("fetching pets");
+    if(hash){
+      if(this.filterService.isCurrentFilterEmpty()){
+        this.petService.getAllPets(this.currentPage, this.size).subscribe({
+          next: (response) => {
+              this.pets = response.content;
+              this.totalPages = response.totalPages;
+          }
+        });
+      } else {
+        this.petService.getPetsByFilter(hash, this.currentPage, this.size).subscribe({
+          next: (response) => {
+            this.pets = response.content;
+            this.totalPages = response.totalPages;
+          }
+        }); 
+      }
+    }
   }
 }

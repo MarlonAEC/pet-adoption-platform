@@ -1,0 +1,47 @@
+<div class="flex items-center">
+    <ng-container *ngFor="let button of buttonsToRender; let i = index">
+        <button
+            *ngIf="button === '<<'"
+            [ngClass]="{
+                'rounded-l-3xl': i === 0
+            }"
+            (click)="onNavigateToPage(1)"
+            class="w-full px-4 py-2 text-base text-gray-600 bg-white border hover:bg-gray-100"
+            >{{ button }}</button>
+        <button
+            *ngIf="button === '<'"
+            [ngClass]="{
+                'rounded-l-3xl': i === 1
+            }"
+            (click)="onDecrementPage()"
+            class="w-full px-4 py-2 text-base text-gray-600 bg-white border hover:bg-gray-100"
+            >{{ button }}</button>
+        <button
+            *ngIf="button === '>'"
+            [ngClass]="{
+                'rounded-r-3xl': i === buttonsToRender.length - 1
+            }"
+            class="w-full px-4 py-2 text-base text-gray-600 bg-white border hover:bg-gray-100"
+            (click)="onIncrementPage()"
+            >{{ button }}</button>
+        <button
+            *ngIf="button === '>>'"
+            [ngClass]="{
+                'rounded-r-3xl': i === buttonsToRender.length - 1
+            }"
+            class="w-full px-4 py-2 text-base text-gray-600 bg-white border hover:bg-gray-100 flex flex-row items-center"
+            (click)="onNavigateToPage(totalPages)"
+            >{{button}}</button>
+        <button
+            *ngIf="button !== '<<' && button !== '<' && button !== '>' && button !== '>>'"
+            [ngClass]="{
+                'text-white bg-primary1-400 hover:bg-primary-500 hover:text-white': button === currentPage.toString(),
+                'text-gray-600 bg-white': button !== currentPage.toString(),
+                'rounded-l-3xl': i === 0,
+                'rounded-r-3xl': i === buttonsToRender.length - 1
+            }"
+            class="w-full px-4 py-2 text-base text-gray-600  border hover:bg-gray-100"
+            (click)="onNavigateToPage(+button)"
+            >{{ button }}</button>
+    </ng-container>
+</div>
