@@ -2,11 +2,12 @@ import { Component, Input } from '@angular/core';
 import { Pet } from '../../models/pet.model';
 import { TypographyComponent } from '../typography/typography.component';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-pet-card',
   standalone: true,
-  imports: [TypographyComponent, CommonModule, NgOptimizedImage],
+  imports: [TypographyComponent, CommonModule, NgOptimizedImage, RouterLink],
   templateUrl: './pet-card.component.html',
   styleUrl: './pet-card.component.css'
 })
@@ -38,7 +39,14 @@ export class PetCardComponent {
     _good_with_cats: false,
     _spayed: false,
     _vaccinated: false,
-    _wormed: false
+    _wormed: false,
+    favourite_things: [],
+    requirements_for_new_home: [],
+    weight: 0,
+    color: '',
+    background: '',
+    health: '',
+    sex: ''
   };
   imageToDisplay: string = this.pet.images[0] ?? '/assets/placeholder.svg';
 }

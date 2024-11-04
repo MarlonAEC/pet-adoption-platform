@@ -10,6 +10,11 @@ export interface Pet {
     updatedAt: string;
     address: string;
     images: string[];
+    weight: number;
+    color: string;
+    sex: string;
+    background: string;
+    health: string;
     value: number;
     temperament_how_calmed: number;
     temperament_how_social: number;
@@ -26,6 +31,8 @@ export interface Pet {
     _spayed: boolean;
     _vaccinated: boolean;
     _wormed: boolean;
+    favourite_things: string[];
+    requirements_for_new_home: string[];
 }
 
 export interface Sort {

@@ -20,10 +20,14 @@
     <p *ngSwitchCase="'p'" [ngClass]="[customClass, fontWeightClass]" class="prose-base text-base">
         {{ text }}
     </p>
+    <div *ngSwitchCase="'special'" [ngClass]="[customClass, fontWeightClass]" class="prose-base text-base text-sm/[12px]">
+        {{ text }}
+    </div>
     <span *ngSwitchCase="'span'" [ngClass]="[customClass, fontWeightClass]" class="prose-base text-base">
         {{ text}}
     </span>
     <div *ngSwitchDefault [ngClass]="[customClass, fontWeightClass]" class="prose-base text-base">
         {{ text }}
     </div>
+    
 </ng-container>

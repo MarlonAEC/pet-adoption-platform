@@ -1,4 +1,4 @@
-<a href="#">
+<a [routerLink]="['/pets', pet.id]">
     <div class="pet-car-container bg-white w-fit p-2 rounded-xl max-w-64 h-80">
         <div class="pet-card-image w-60 h-44 relative rounded-xl">
             <img [ngSrc]="imageToDisplay" alt="pet" class="object-fill z-0 rounded-xl" fill priority/>

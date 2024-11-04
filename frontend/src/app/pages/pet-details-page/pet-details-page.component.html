@@ -1,0 +1,171 @@
+<div class="relative self-center w-full py-4 h-screen rounded-2xl -top-7">
+    <div class="flex flex-row items-start justify-between gap-4 px-4 h-fit ">
+        <div
+            class="photo-slider-container inset-0 bg-white w-3/5 flex flex-col items-center justify-center rounded-2xl h-full p-4">
+            <app-carousel-images [slides]="this.slides" class="w-full" (currentSlideChange)="onCurrentSlideChange($event)"></app-carousel-images>
+            <div class="flex flex-row flex-wrap gap-4 w-full py-4 items-center justify-center">
+                <div *ngFor="let slide of slides; let i = index" class="items-center" [ngClass]="i != currentImageDisplaying ? '' : 'hidden'">
+                    <div *ngIf="i != currentImageDisplaying" >
+                        <img [src]="slide.src" alt="pet" class="w-44 h-40 object-cover rounded-2xl">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="inset-0 bg-white w-2/5 flex flex-col items-start justify-center rounded-2xl h-full pt-10 pb-6 px-10">
+            <app-typography type="h5" [text]="this.pet.name" customClass="text-primary-500"></app-typography>
+            <app-typography type="span" text="About" customClass="text-neutral-500"></app-typography>
+            <div class="flex flex-col w-full items-center justify-center gap-3">
+                <div class="flex flex-row justify-between w-full items-center">
+                    <app-typography type="special" fontWeight="bold" text="Breed" customClass="text-primary-500"></app-typography>
+                    <app-typography type="span" [text]="this.pet.breed" customClass="text-neutral-500 top-3"></app-typography>
+                </div>
+                <div class="flex flex-row justify-between w-full items-center">
+                    <app-typography type="special" fontWeight="bold" text="Specie" customClass="text-primary-500"></app-typography>
+                    <app-typography type="special" [text]="this.pet.species" customClass="text-neutral-500 top-3"></app-typography>
+                </div>
+                <div class="flex flex-row justify-between w-full items-center">
+                    <app-typography type="special" fontWeight="bold" text="Sex" customClass="text-primary-500"></app-typography>
+                    <app-typography type="special" [text]="this.pet.sex" customClass="text-neutral-500 top-3"></app-typography>
+                </div>
+                <div class="flex flex-row justify-between w-full items-center">
+                    <app-typography type="special" fontWeight="bold" text="Color" customClass="text-primary-500"></app-typography>
+                    <app-typography type="special" [text]="this.pet.color" customClass="text-neutral-500 top-3"></app-typography>
+                </div>
+                <div class="flex flex-row justify-between w-full items-center">
+                    <app-typography type="special" fontWeight="bold" text="Weight" customClass="text-primary-500"></app-typography>
+                    <app-typography type="special" [text]="this.pet.weight.toString() + ' kg'" customClass="text-neutral-500 top-3"></app-typography>
+                </div>
+                <div class="flex flex-row justify-between w-full items-center">
+                    <app-typography type="special" fontWeight="bold" text="Age" customClass="text-primary-500"></app-typography>
+                    <app-typography type="special" [text]="this.pet.age.toString() + ' years old'" customClass="text-neutral-500 top-3"></app-typography>
+                </div>
+                <div class="flex flex-row justify-between w-full items-center">
+                    <app-typography type="special" fontWeight="bold" text="Arrived Date" customClass="text-primary-500"></app-typography>
+                    <app-typography type="special" text="{{this.pet.createdAt | date:'mediumDate'}}" customClass="text-neutral-500 top-3"></app-typography>
+                </div>
+                <div class="flex flex-row justify-between w-full items-center">
+                    <app-typography type="special" fontWeight="bold" text="Location" customClass="text-primary-500"></app-typography>
+                    <app-typography type="special" [text]="this.pet.postal_code"
+                        customClass="text-neutral-500 top-3"></app-typography>
+                </div>
+                <br/>
+                <div class="flex flex-row justify-between w-full items-center">
+                    <app-typography type="special" fontWeight="bold" text="Adoption Fee" customClass="text-primary-500"></app-typography>
+                    <app-typography type="special" [text]="'$ ' + this.pet.value.toString()" customClass="text-neutral-500 top-3"></app-typography>
+                </div>
+                <app-button label="Apply to Adopt" class="w-full my-4" customClass="w-full"></app-button>
+            </div>
+        </div>
+    </div>
+    <div class="bg-white h-fit rounded-2xl py-10 px-4 flex flex-col gap-4 m-4">
+        <app-typography type="h5" text="Description" customClass="text-primary-500"></app-typography>
+        <app-typography type="span" [text]="this.pet.description" customClass="text-primary-500"></app-typography>
+        <hr/>
+        <div *ngIf="favoriteThings.length > 0">
+            <div class="pb-4">
+                <app-typography type="h6" text="Favorite things" customClass="text-primary-500 pb-4"></app-typography>
+                <div class="flex flex-row gap-10">
+                    @for(favorite of favoriteThings; track $index) {
+                    <div class="flex flex-row">
+                        <svg class="w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg" width="6" height="6" stroke="currentColor"
+                            fill="#2DD9FC" viewBox="0 0 1792 1792">
+                            <path
+                                d="M1412 734q0-28-18-46l-91-90q-19-19-45-19t-45 19l-408 407-226-226q-19-19-45-19t-45 19l-91 90q-18 18-18 46 0 27 18 45l362 362q19 19 45 19 27 0 46-19l543-543q18-18 18-45zm252 162q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z">
+                            </path>
+                        </svg>
+                        <app-typography type="span" [text]="favorite" customClass="text-primary-500"></app-typography>
+                    </div>
+                    }
+                </div>
+            </div>
+            <hr />
+        </div>
+
+        <div *ngIf="requirementsForNewHome.length > 0">
+            <div class="pb-4">
+                <app-typography type="h6" text="Requirements for New Home" customClass="text-primary-500 pb-4"></app-typography>
+                <div class="flex flex-row gap-10">
+                    @for(requirement of requirementsForNewHome; track $index) {
+                    <div class="flex flex-row">
+                        <svg class="w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg" width="6" height="6" stroke="currentColor"
+                            fill="#2DD9FC" viewBox="0 0 1792 1792">
+                            <path
+                                d="M1412 734q0-28-18-46l-91-90q-19-19-45-19t-45 19l-408 407-226-226q-19-19-45-19t-45 19l-91 90q-18 18-18 46 0 27 18 45l362 362q19 19 45 19 27 0 46-19l543-543q18-18 18-45zm252 162q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z">
+                            </path>
+                        </svg>
+                        <app-typography type="span" [text]="requirement" customClass="text-primary-500"></app-typography>
+                    </div>
+                    }
+                </div>
+            </div>
+            <hr />
+        </div>
+
+        <div *ngIf="detailedInformation.length > 0">
+            <div class="pb-4">
+                <app-typography type="h6" text="Detailed Information" customClass="text-primary-500 pb-4"></app-typography>
+                <div class="flex flex-row gap-10 flex-wrap">
+                    @for(detail of detailedInformation; track $index) {
+                    <div class="flex flex-row">
+                        <svg class="w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg" width="6" height="6" stroke="currentColor"
+                            fill="#2DD9FC" viewBox="0 0 1792 1792" *ngIf="detail.value === true">
+                            <path
+                                d="M1412 734q0-28-18-46l-91-90q-19-19-45-19t-45 19l-408 407-226-226q-19-19-45-19t-45 19l-91 90q-18 18-18 46 0 27 18 45l362 362q19 19 45 19 27 0 46-19l543-543q18-18 18-45zm252 162q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z">
+                            </path>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="6" height="6" class="w-6 h-6 mr-2" fill="red"
+                            viewBox="0 0 1792 1792" *ngIf="detail.value === false">
+                            <path
+                                d="M1277 1122q0-26-19-45l-181-181 181-181q19-19 19-45 0-27-19-46l-90-90q-19-19-46-19-26 0-45 19l-181 181-181-181q-19-19-45-19-27 0-46 19l-90 90q-19 19-19 46 0 26 19 45l181 181-181 181q-19 19-19 45 0 27 19 46l90 90q19 19 46 19 26 0 45-19l181-181 181 181q19 19 45 19 27 0 46-19l90-90q19-19 19-46zm387-226q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z">
+                            </path>
+                        </svg>
+                        <app-typography type="span" [text]="detail.key" customClass="text-primary-500"></app-typography>
+                    </div>
+                    }
+                </div>
+            </div>
+            <hr />
+        </div>
+        <div class="temperament-container w-full flex flex-row">
+            <div class="w-1/2">
+                <app-line-selector 
+                    [disabled]="true" 
+                    [value]="this.pet.temperament_how_calmed"
+                    labelStart="Chilled"
+                    labelEnd="Hyper"
+                ></app-line-selector>
+                <app-line-selector 
+                    [disabled]="true" 
+                    [value]="this.pet.temperament_how_attention_seeking"
+                    labelStart="Happy alone"
+                    labelEnd="Separation Anxiety"
+                ></app-line-selector>
+                <app-line-selector 
+                    [disabled]="true" 
+                    [value]="this.pet.temperament_how_loud" 
+                    labelStart="Quiet"
+                    labelEnd="Noisy"
+                ></app-line-selector>
+            </div>
+            <div class="w-1/2">
+                <app-line-selector 
+                    [disabled]="true" 
+                    [value]="this.pet.temperament_how_social" 
+                    labelStart="Cuddler"
+                    labelEnd="Independent"
+                ></app-line-selector>
+                <app-line-selector 
+                    [disabled]="true" 
+                    [value]="this.pet.temperament_how_active" 
+                    labelStart="Low Exercise"
+                    labelEnd="High Exercise"
+                ></app-line-selector>
+            </div>
+        </div>
+        <hr />
+        <div>
+            <app-typography type="h6" text="Health issues" customClass="text-primary-500 pb-4"></app-typography>
+            <app-typography type="span" [text]="pet.health" customClass="text-primary-500 pb-4"></app-typography>
+        </div>
+    </div>
+</div>

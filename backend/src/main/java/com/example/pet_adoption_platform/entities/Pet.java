@@ -64,6 +64,20 @@ public class Pet {
 
     private String description;
 
+    private String background;
+
+    private String health;
+
+    private String sex;
+
+    private String color;
+
+    private String weight;
+
+    private List<String> favourite_things;
+
+    private List<String> requirements_for_new_home;
+
     @Column(nullable = false, columnDefinition = "boolean default false")
     private Boolean adopted;
 

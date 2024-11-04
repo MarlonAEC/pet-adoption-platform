@@ -20,6 +20,6 @@ export class PetService {
   }
 
   getPetById(id: number): Observable<Pet> {
-    return this.http.get<Pet>(`${API_BASE_URL}/${id}`);
+    return this.http.get<Pet>(`${API_BASE_URL}/pets/${id}`);
   }
 }

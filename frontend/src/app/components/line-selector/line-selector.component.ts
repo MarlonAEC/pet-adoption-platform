@@ -16,7 +16,16 @@ export class LineSelectorComponent extends ControlValueAccessorDirective<number>
   @Input() labelEnd: string = '';
   @Input() rangeId: string = '';
   @Input() name: string = '';
+  @Input() disabled: boolean = false;
+  @Input() value: number | null = null;
   min: number = 1;
   max: number = 5;
   steps: number[] = [1, 2, 3, 4, 5];
+
+  override ngOnInit(): void {
+    super.ngOnInit();
+      if(this.value){
+        this.control?.setValue(this.value);
+      }
+  }
 }
