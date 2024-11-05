@@ -1,9 +1,17 @@
-<div class="relative max-w-6xl self-center w-full h-screen rounded-2xl justify-center flex" style="background-image: url('assets/bg_1.jpg');">
-    
-    <div class="absolute inset-0 bg-white bg-opacity-50 flex items-center justify-end rounded-2xl">
-        <!-- Text Content -->
-        <header class="relative flex flex-row justify-end mx-auto w-1/2">
-            <app-typography type="h1" text="Paws in Need, Hearts to Feed." fontWeight="bold" customClass="text-primary1-600 text-center self-center flex justify-center"></app-typography>
-        </header>
+<div class="homepage-container">
+    <div class="regular-user-homepage-container" *ngIf="!isAdmin">
+        <div class="relative max-w-6xl self-center w-full h-screen rounded-2xl justify-center flex"
+            style="background-image: url('assets/bg_1.jpg');">
+            <div class="absolute inset-0 bg-white bg-opacity-50 flex items-center justify-end rounded-2xl">
+                <!-- Text Content -->
+                <header class="relative flex flex-row justify-end mx-auto w-1/2">
+                    <app-typography type="h1" text="Paws in Need, Hearts to Feed." fontWeight="bold"
+                        customClass="text-primary1-600 text-center self-center flex justify-center"></app-typography>
+                </header>
+            </div>
+        </div>
+    </div>
+    <div class="admin-homepage-container" *ngIf="isAdmin">
+        this is the admin homepage
     </div>
 </div>

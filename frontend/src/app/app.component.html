@@ -1,3 +1,4 @@
 <div class="bg-neutral2-500 h-full">
-  <app-main-layout></app-main-layout>
+  <app-main-layout *ngIf="!isAdmin"></app-main-layout>
+  <app-admin-layout *ngIf="isAdmin"></app-admin-layout>
 </div>

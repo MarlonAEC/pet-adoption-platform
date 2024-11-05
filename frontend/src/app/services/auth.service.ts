@@ -15,6 +15,7 @@ export class AuthService {
   username = new BehaviorSubject<string>('');
   roles = new BehaviorSubject<string[]>([]);
   error = new BehaviorSubject<string>('');
+  isAdmin = new BehaviorSubject<boolean>(false);
 
   constructor(private readonly http: HttpClient) { }
 
@@ -29,10 +30,7 @@ export class AuthService {
     });
     res.subscribe({
         next: (data) => {
-            this.isLogged.next(true);
-            this.jwtToken.next(data.jwtToken);
-            this.username.next(data.username);
-            this.roles.next(data.roles);
+            this.updateAuthState(data);
             this.storeCredentials(data.jwtToken, data.username, data.roles);
         },
         error: (error: Error) => this.error.next(error.message)
@@ -60,10 +58,7 @@ export class AuthService {
   });
   res.subscribe({
     next: (data) => {
-        this.isLogged.next(true);
-        this.jwtToken.next(data.jwtToken);
-        this.username.next(data.username);
-        this.roles.next(data.roles);
+        this.updateAuthState(data);
         this.storeCredentials(data.jwtToken, data.username, data.roles);
     },
     error: (error: HttpErrorResponse) => {
@@ -79,6 +74,7 @@ export class AuthService {
     this.jwtToken.next('');
     this.username.next('');
     this.roles.next([]);
+    this.cleanLocalStorage();
   }
 
   storeCredentials(jwtToken: string, username: string, roles: string[]) {
@@ -97,13 +93,26 @@ export class AuthService {
       const username = localStorage.getItem('username');
       const roles = JSON.parse(localStorage.getItem('roles') || '[]');
       if (jwtToken && username && roles) {
-          this.isLogged.next(true);
-          this.jwtToken.next(jwtToken);
-          this.username.next(username);
-          this.roles.next(roles);
+          this.updateAuthState({ jwtToken, username, roles });
       }
     } catch (error) {
         console.error('Error retrieving credentials: ', error);
     }
+  }
+
+  updateAuthState(data: AuthResponse) {
+    this.isLogged.next(true);
+    this.jwtToken.next(data.jwtToken);
+    this.username.next(data.username);
+    this.roles.next(data.roles);
+    if(this.roles.value.includes('ROLE_ADMIN')){
+      this.isAdmin.next(true);
+    }
+  }
+
+  cleanLocalStorage() {
+    localStorage.removeItem('jwtToken');
+    localStorage.removeItem('username');
+    localStorage.removeItem('roles');
   }
 }
