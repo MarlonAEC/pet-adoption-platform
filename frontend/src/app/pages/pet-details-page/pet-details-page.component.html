@@ -53,7 +53,7 @@
                     <app-typography type="special" fontWeight="bold" text="Adoption Fee" customClass="text-primary-500"></app-typography>
                     <app-typography type="special" [text]="'$ ' + this.pet.value.toString()" customClass="text-neutral-500 top-3"></app-typography>
                 </div>
-                <app-button label="Apply to Adopt" class="w-full my-4" customClass="w-full"></app-button>
+                <app-button label="Apply to Adopt" class="w-full my-4" customClass="w-full" (onButtonClick)="onApplyToAdopt()"></app-button>
             </div>
         </div>
     </div>

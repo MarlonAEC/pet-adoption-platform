@@ -14,9 +14,10 @@ export class ButtonComponent {
   @Input() customClass: string = '';   // Optional class for custom styling
   @Input() disabled: boolean = false;  // Disabled state
 
-  @Output() onClick: EventEmitter<void> = new EventEmitter<void>(); // Event emitter for click
+  @Output() onButtonClick: EventEmitter<void> = new EventEmitter<void>(); // Event emitter for click
 
   handleClick() {
-    this.onClick.emit(); // Emit the click event
+    console.log("Event getting called");
+    this.onButtonClick.emit(); // Emit the click event
   }
 }

@@ -63,6 +63,14 @@ public class AdoptionApplicationController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
 
+        Optional<AdoptionApplication> alreadyApplied = adoptionApplicationRepository.findByUserAndPetId(user, request.getPetId());
+
+        if(alreadyApplied.isPresent()){
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "User with ID " + request.getUserId() + " already applied for pet with ID " + request.getPetId());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+
         Pet pet = petOptional.get();
 
         AdoptionApplication application = new AdoptionApplication();
@@ -141,5 +149,4 @@ public class AdoptionApplicationController {
         res.put("message", "Application with ID: " + id + " not found");
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(res);
     }
-
 }

@@ -61,6 +61,20 @@ export class PetDetailsPageComponent implements OnInit {
     }
   }
 
+  onApplyToAdopt() {
+    console.log("Applying to adopt pet with id: " + this.petId);
+    if(this.petId){
+      this.petService.applyToAdoptPet(this.petId).subscribe({
+        next: (res) => {
+          alert("Application submitted successfully: " + JSON.stringify(res, null, 2));
+        },
+        error: () => {
+          alert("Failed to submit application");
+        }
+      });
+    }
+  }
+
 
   onCurrentSlideChange(currentSlide: number) {
     this.currentImageDisplaying = currentSlide;

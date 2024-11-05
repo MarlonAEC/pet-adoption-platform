@@ -1,5 +1,6 @@
 package com.example.pet_adoption_platform.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -21,6 +22,7 @@ public class User {
 
     @Column(nullable = false, length = 500)
     @Setter
+    @JsonIgnore
     private String password;
 
     @Column(length = 500)

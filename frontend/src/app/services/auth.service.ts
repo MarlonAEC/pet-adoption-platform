@@ -33,6 +33,7 @@ export class AuthService {
             this.jwtToken.next(data.jwtToken);
             this.username.next(data.username);
             this.roles.next(data.roles);
+            this.storeCredentials(data.jwtToken, data.username, data.roles);
         },
         error: (error: Error) => this.error.next(error.message)
     });
@@ -63,6 +64,7 @@ export class AuthService {
         this.jwtToken.next(data.jwtToken);
         this.username.next(data.username);
         this.roles.next(data.roles);
+        this.storeCredentials(data.jwtToken, data.username, data.roles);
     },
     error: (error: HttpErrorResponse) => {
       console.log(error);
@@ -77,5 +79,31 @@ export class AuthService {
     this.jwtToken.next('');
     this.username.next('');
     this.roles.next([]);
+  }
+
+  storeCredentials(jwtToken: string, username: string, roles: string[]) {
+    try {
+      localStorage.setItem('jwtToken', jwtToken);
+      localStorage.setItem('username', username);
+      localStorage.setItem('roles', JSON.stringify(roles));
+    } catch (error) {
+        console.error('Error storing credentials: ', error);
+    }
+  }
+
+  retrieveCredentials() {
+    try {
+      const jwtToken = localStorage.getItem('jwtToken');
+      const username = localStorage.getItem('username');
+      const roles = JSON.parse(localStorage.getItem('roles') || '[]');
+      if (jwtToken && username && roles) {
+          this.isLogged.next(true);
+          this.jwtToken.next(jwtToken);
+          this.username.next(username);
+          this.roles.next(roles);
+      }
+    } catch (error) {
+        console.error('Error retrieving credentials: ', error);
+    }
   }
 }
