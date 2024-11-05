@@ -32,7 +32,6 @@ export class AdminNavbarComponent implements OnInit {
         filter(event => event instanceof NavigationEnd)
       ).subscribe((event: NavigationEnd) => {
         this.currentUrl = event.urlAfterRedirects;
-        console.log('Current URL:', this.currentUrl);
       });
 
       this.menuItems = [

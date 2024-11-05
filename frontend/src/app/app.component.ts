@@ -27,9 +27,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.authService.isAdmin.subscribe((isAdmin) => {
-      console.log('Is admin:', isAdmin);
       this.isAdmin = isAdmin;
-      console.log('Is admin:', this.isAdmin);
     });
     this.authService.retrieveCredentials();
   }

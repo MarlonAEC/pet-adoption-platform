@@ -50,8 +50,8 @@ export interface Pageable {
     unpaged: boolean;
 }
 
-export interface PetResponse {
-    content: Pet[];
+export interface Page<T>{
+    content: T[];
     pageable: Pageable;
     last: boolean;
     totalPages: number;
@@ -63,3 +63,5 @@ export interface PetResponse {
     numberOfElements: number;
     empty: boolean;
 }
+
+export type PetResponse = Page<Pet>;

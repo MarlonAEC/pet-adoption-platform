@@ -52,7 +52,6 @@ export class PetDetailsPageComponent implements OnInit {
     ];
     if(this.petId) {
       this.petService.getPetById(this.petId).subscribe(pet => {
-        console.log(pet);
         this.pet = pet;
         this.favoriteThings = pet?.favourite_things ?? [];
         this.requirementsForNewHome = pet?.requirements_for_new_home ?? [];
@@ -62,7 +61,6 @@ export class PetDetailsPageComponent implements OnInit {
   }
 
   onApplyToAdopt() {
-    console.log("Applying to adopt pet with id: " + this.petId);
     if(this.petId){
       this.petService.applyToAdoptPet(this.petId).subscribe({
         next: (res) => {

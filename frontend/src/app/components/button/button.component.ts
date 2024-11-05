@@ -17,7 +17,6 @@ export class ButtonComponent {
   @Output() onButtonClick: EventEmitter<void> = new EventEmitter<void>(); // Event emitter for click
 
   handleClick() {
-    console.log("Event getting called");
     this.onButtonClick.emit(); // Emit the click event
   }
 }

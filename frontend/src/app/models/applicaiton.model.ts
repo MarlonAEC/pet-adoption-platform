@@ -8,4 +8,5 @@ export interface AdoptionApplication {
     status: string;
     createdAt: string;
     updatedAt: string;
+    [key: string]: unknown;
 }

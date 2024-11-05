@@ -38,19 +38,16 @@ export class FindPetPageComponent implements OnInit {
   }
 
   incrementPage(): void {
-    console.log("incrementing page");
     if(this.currentPage < this.totalPages - 1)
       this.currentPageSubject.next(this.currentPage + 1);
   }
 
   decrementPage(): void {
-    console.log("decrementing page");
     if(this.currentPage > 0)
       this.currentPageSubject.next(this.currentPage - 1);
   }
 
   navigateToPage(page: number): void {
-    console.log("navigating to page", page);
     if(page <= this.totalPages && page > 0)
       this.currentPageSubject.next(page);
   }
@@ -67,14 +64,12 @@ export class FindPetPageComponent implements OnInit {
 
     this.currentPage$.subscribe({
       next: (page) => {
-        console.log(page);
         this.fetchPets(this.filterService.getCurrentFilterHash());
       }
     }); 
   }
 
   private fetchPets(hash: string): void {
-    console.log("fetching pets");
     if(hash){
       if(this.filterService.isCurrentFilterEmpty()){
         this.petService.getAllPets(this.currentPage, this.size).subscribe({

@@ -25,8 +25,6 @@ export class NavbarComponent {
       this.authService.isAdmin
     ]).subscribe(([isLogged, isAdmin]) => {
       this.isLoggedIn = isLogged; // Update the logged-in status
-      console.log('Logged in status:', this.isLoggedIn);
-      console.log('Is admin:', this.authService.isAdmin.getValue());
       if(isLogged && !isAdmin){
         this.menuItems = [
           {

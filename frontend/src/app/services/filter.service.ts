@@ -110,8 +110,7 @@ export class FilterService {
         }
       }
     }
-
-    console.log("NEW FILTER: ",newFilter);
+    
     this.createOrGetFilterHash(this.mapUIFilterToDatabaseFilter(newFilter));
     this.filterSource.next(newFilter);
   }

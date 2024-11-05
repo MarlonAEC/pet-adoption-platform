@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { API_BASE_URL } from '../constants/api';
-import { AuthRequest, AuthResponse, User } from '../models/user.model';
+import { AuthRequest, AuthResponse, UserInput } from '../models/user.model';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Error } from '../models/error.model';
 
@@ -44,7 +44,7 @@ export class AuthService {
     name,
     email,
     address
-  }: User) {
+  }: UserInput) {
     const res = this.http.post<AuthResponse>(`${API_BASE_URL}/auth/sign-up`, {
       username,
       password,

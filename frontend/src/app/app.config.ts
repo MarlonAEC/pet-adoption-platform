@@ -3,6 +3,7 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideHttpClient, withFetch } from '@angular/common/http';
+import { INTL_LOCALES } from "angular-ecmascript-intl";
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -11,5 +12,9 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(
       withFetch()
     ),
+    {
+      provide: INTL_LOCALES,
+      useValue: ['en-US']
+    }
   ]
 };

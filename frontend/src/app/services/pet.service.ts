@@ -33,11 +33,11 @@ export class PetService {
       throw new Error('You must be logged in to apply to adopt a pet');
     }
     return this.http.post<AdoptionApplication>(`${API_BASE_URL}/adoption-applications`, {
-      userId: this.authService.username,
+      userId: this.authService.username.getValue(),
       petId: petId
     }, {
       headers: {
-        authorization: `${this.authService.jwtToken}`,
+        authorization: `Bearer ${this.authService.jwtToken.getValue()}`,
         'Content-Type': 'application/json'
       }
     });

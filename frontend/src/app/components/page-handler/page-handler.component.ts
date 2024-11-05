@@ -44,8 +44,6 @@ export class PageHandlerComponent implements OnInit, OnChanges {
         this.buttonsToRender.push(">");
         this.buttonsToRender.push(">>");
       }
-
-      console.log(this.buttonsToRender);
   }}
 
   ngOnInit(): void {
@@ -62,17 +60,14 @@ export class PageHandlerComponent implements OnInit, OnChanges {
   }
 
   onIncrementPage(): void {
-    console.log("incrementing page child");
     this.incrementPage.emit();
   }
 
   onDecrementPage(): void {
-    console.log("decrementing page child");
     this.decrementPage.emit();
   }
 
   onNavigateToPage(page: number): void {
-    console.log("navigating to page child");
     this.navigateToPage.emit(page);
   }
 }

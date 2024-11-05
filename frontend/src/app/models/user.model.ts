@@ -16,7 +16,7 @@ export interface Authority {
     };
 }
 
-export interface User {
+export interface UserInput {
     username: string;
     name: string;
     email: string;
