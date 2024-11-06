@@ -1,10 +1,9 @@
-<div class="flex flex-row-reverse justify-end px-4 gap-2 items-center py-1" *ngIf="control">
+<div class="flex flex-row-reverse justify-end px-4 gap-2 items-center py-1 h-full" *ngIf="control">
     <label [for]="checkboxId" class="sr-only">{{label}}</label>
     <app-typography text="{{label}}" type="span"></app-typography>
-    <input 
+    <input
         type="checkbox" 
-        ngDefaultControl
-        [formControl]="control" 
+        [formControl]="control"
         [id]="checkboxId"
         [name]="name"
         class="w-4 h-4 text-primary1-400 rounded focus:ring-primary1-500 dark:focus:ring-primary1-600" />

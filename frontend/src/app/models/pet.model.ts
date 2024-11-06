@@ -35,6 +35,8 @@ export interface Pet {
     requirements_for_new_home: string[];
 }
 
+export type InputPet = Omit<Pet,'createdAt' | 'updatedAt'>
+
 export interface Sort {
     empty: boolean;
     sorted: boolean;

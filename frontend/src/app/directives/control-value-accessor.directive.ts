@@ -13,7 +13,7 @@ export class ControlValueAccessorDirective<T> implements ControlValueAccessor, O
   private readonly _destroy$ = new Subject<void>();
   private _onTouched!: () => T;
 
-  constructor(@Inject(Injector) private readonly injector: Injector) {
+  constructor(@Inject(Injector) protected readonly injector: Injector) {
   }
   
   ngOnInit(): void {
