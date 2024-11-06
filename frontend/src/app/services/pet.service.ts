@@ -28,6 +28,21 @@ export class PetService {
     return this.http.get<Pet>(`${API_BASE_URL}/pets/${id}`);
   }
 
+  createPetByAdmin(pet: Pet): Observable<Pet> {
+    if(!this.authService.username.getValue()){
+      throw new Error('You must be logged in to create a pet');
+    }
+    if(!this.authService.isAdmin.getValue()){
+      throw new Error('You must be an admin to create a pet');
+    }
+    return this.http.post<Pet>(`${API_BASE_URL}/pets`, pet, {
+      headers: {
+        authorization: `Bearer ${this.authService.jwtToken.getValue()}`,
+        'Content-Type': 'application/json'
+      }
+    });
+  }
+
   applyToAdoptPet(petId: number): Observable<AdoptionApplication> {
     if(!this.authService.username){
       throw new Error('You must be logged in to apply to adopt a pet');

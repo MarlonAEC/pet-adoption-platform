@@ -34,4 +34,22 @@ export class PetsDashboardComponent implements OnInit{
         },
       });
   }
+
+  handleCreatePet(pet: Pet): void {
+    console.log("🚀 ~ PetsDashboardComponent ~ handleCreatePet ~ pet:", pet)
+    if(pet){
+      try{
+        this.petService.createPetByAdmin(pet).subscribe({
+          next: () => {
+            alert("Pet created successfully!");
+          },
+          error: (error) => {
+            console.error(error);
+          }
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  }
 }

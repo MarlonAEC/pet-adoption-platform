@@ -21,6 +21,6 @@
         <app-table [elements]="elements"></app-table>
     </div>
     <div *ngIf="showCreatePetForm" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-        <app-create-pet-modal class="w-full mx-11 my-20" (close)="toggleShowCreatePetForm()"></app-create-pet-modal>
+        <app-create-pet-modal class="w-full mx-11 my-20" (handleClose)="toggleShowCreatePetForm()" (handleSubmit)="handleCreatePet($event)"></app-create-pet-modal>
     </div>
 </div>

@@ -85,10 +85,14 @@ export class CreatePetModalComponent {
 
   submit() {
     console.log(JSON.stringify(this.form.value, null, 2));
-    if(this.form.valid)
+    if(this.form.valid){
+      console.log("Form is valid");
       this.handleSubmit.emit(this.form.value);
-    else 
+    }
+    else {
+      console.log("Form is invalid");
       this.form.markAllAsTouched();
+    }
   }
 
   close() {
