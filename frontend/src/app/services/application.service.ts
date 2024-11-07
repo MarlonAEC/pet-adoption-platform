@@ -15,9 +15,9 @@ export class ApplicationService {
     private readonly http: HttpClient
   ) { }
 
-  fetchApplications() {
+  fetchApplications(page: number = 0, size: number = 15) {
     if(this.authService.isAdmin.getValue()){
-      return this.http.get<Page<AdoptionApplication>>(`${API_BASE_URL}/adoption-applications`, {
+      return this.http.get<Page<AdoptionApplication>>(`${API_BASE_URL}/adoption-applications?page=${page}&size=${size}`, {
         headers: {
           'Authorization': `Bearer ${this.authService.jwtToken.getValue()}`,
           'Content-Type': 'application/json',
