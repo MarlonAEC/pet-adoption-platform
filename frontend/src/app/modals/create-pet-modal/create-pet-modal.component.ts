@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { InputWithIconComponent } from "../../components/input-with-icon/input-with-icon.component";
 import { InputComponent } from "../../components/input/input.component";
 import { LineSelectorComponent } from "../../components/line-selector/line-selector.component";
 import { TypographyComponent } from "../../components/typography/typography.component";
@@ -10,7 +9,7 @@ import { CheckboxComponent } from '../../components/checkbox/checkbox.component'
 @Component({
   selector: 'app-create-pet-modal',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, InputWithIconComponent, InputComponent, LineSelectorComponent, TypographyComponent, CheckboxComponent],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, InputComponent, LineSelectorComponent, TypographyComponent, CheckboxComponent],
   templateUrl: './create-pet-modal.component.html',
   styleUrl: './create-pet-modal.component.css'
 })

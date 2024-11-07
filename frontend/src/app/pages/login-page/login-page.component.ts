@@ -55,7 +55,10 @@ export class LoginPageComponent {
       password: this.password
     }).subscribe({
       next: () => {
-        this.router.navigate(['/find-pets'])
+        if(this.authService.isAdmin.getValue())
+          this.router.navigate(['/dashboard']);
+        else
+          this.router.navigate(['/find-pets']);
       },
       error: (error) => this.errorSigningIn = error.error.message,
     });

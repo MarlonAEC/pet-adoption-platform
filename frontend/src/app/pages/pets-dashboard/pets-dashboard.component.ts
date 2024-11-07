@@ -17,7 +17,7 @@ import { CreatePetModalComponent } from '../../modals/create-pet-modal/create-pe
 })
 export class PetsDashboardComponent implements OnInit{
   elements = new BehaviorSubject<Pet[]>([]);
-  showCreatePetForm: boolean = true;
+  showCreatePetForm: boolean = false;
 
   constructor(
     private readonly petService: PetService

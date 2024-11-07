@@ -1,16 +1,16 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
+import { Router } from '@angular/router';
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
 import { Pet } from './models/pet.model';
 import { PetService } from './services/pet.service';
 import { AuthService } from './services/auth.service';
 import { CommonModule } from '@angular/common';
 import { AdminLayoutComponent } from "./layouts/admin-layout/admin-layout.component";
-import { BehaviorSubject, combineLatest } from 'rxjs';
+import { combineLatest } from 'rxjs';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, MainLayoutComponent, CommonModule, AdminLayoutComponent],
+  imports: [MainLayoutComponent, CommonModule, AdminLayoutComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

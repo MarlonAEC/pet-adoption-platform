@@ -1,4 +1,4 @@
-<nav class="admin-navbar-conatainer mt-6">
+<nav class="admin-navbar-conatainer fade-in-animation mt-6">
     <div>
         @for(menuItem of menuItems; track menuItem.id; let idx = $index){
             <a 
@@ -6,7 +6,7 @@
                 [routerLink]="menuItem.path" 
                 routerLinkActive="active" 
                 ariaCurrentWhenActive="page" 
-                [ngClass]="currentUrl === menuItem.path ? 'flex items-center justify-start w-full p-4 my-2 font-thin text-blue-500 uppercase transition-colors duration-200 border-r-4 border-blue-500 bg-gradient-to-r from-white to-blue-100 dark:from-gray-700 dark:to-gray-800' : 'fade-in-animation flex items-center justify-start w-full p-4 my-2 font-thin text-gray-500 uppercase transition-colors duration-200 dark:text-gray-200 hover:text-blue-500'"
+                [ngClass]="currentUrl === menuItem.path ? 'flex items-center justify-start w-full p-4 my-2 font-thin text-blue-500 uppercase transition-colors duration-200 border-r-4 border-blue-500 bg-gradient-to-r from-white to-blue-100 dark:from-gray-700 dark:to-gray-800' : 'flex items-center justify-start w-full p-4 my-2 font-thin text-gray-500 uppercase transition-colors duration-200 dark:text-gray-200 hover:text-blue-500'"
             >
                 <span class="text-left">
                     <svg width="20" height="20" fill="currentColor" viewBox="0 0 2048 1792" xmlns="http://www.w3.org/2000/svg" *ngIf="menuItem.icon == 'dashboard'">
