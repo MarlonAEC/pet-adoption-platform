@@ -41,3 +41,10 @@ export interface InputFilterMenu extends BaseFilterMenu {
 }
 
 export type FilterMenu = SelectFilterMenu | RangeFilterMenu | ScaleFilterMenu | InputFilterMenu;
+
+export enum IconType {
+    PET = 'pet',
+    USER = 'user',
+    APPLICATION = 'application',
+    DEFAULT= 'default',
+}

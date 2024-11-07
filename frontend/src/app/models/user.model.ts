@@ -34,3 +34,8 @@ export interface UserResponse {
     updatedAt: string;
     password: string;
 }
+
+export interface UserMetrics {
+    totalRegularUsers: number;
+    totalUsers: number;
+    totalAdminUsers: number;}

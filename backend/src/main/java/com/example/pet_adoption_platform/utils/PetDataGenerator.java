@@ -34,7 +34,7 @@ public class PetDataGenerator {
         for(int i = 0; i < 1000; i++) {
             Pet pet = new Pet();
             pet.setName(faker.name().firstName());
-            pet.setAdopted(false);
+            pet.setAdopted(faker.bool().bool());
             pet.setAge(faker.number().numberBetween(1, 20));
             pet.setDescription(faker.lorem().sentence());
             pet.setTemperament_how_active(faker.number().numberBetween(1, 5));

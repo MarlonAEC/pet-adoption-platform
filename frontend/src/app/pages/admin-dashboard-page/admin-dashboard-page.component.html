@@ -1,3 +1,38 @@
 <div>
-    admin page works!
+    <div class="p-4 h-full gap-4 flex flex-row">
+        <div class="flex flex-col gap-4 border-r-2 px-4">
+            <app-typography type="h4" text="Pet metrics"></app-typography>
+            <div class="flex flex-row gap-4">
+                <app-dashboard-card [value]="totalPets" title="Registered Pets" [icon]="allIconTypes.PET"></app-dashboard-card>
+                <app-dashboard-card [value]="totalAdoptedPets" title="Registered Pets" [icon]="allIconTypes.PET"></app-dashboard-card>
+                <app-dashboard-card [value]="totalAvailablePets" title="Registered Pets" [icon]="allIconTypes.PET"></app-dashboard-card>
+            </div>
+            <div class="flex flex-col gap-4">
+                <app-typography type="h4" text="User Metrics"></app-typography>
+                <div class="flex flex-row flex-wrap gap-4">
+                    <app-dashboard-card [value]="totalUsers" title="Registered Users"
+                        [icon]="allIconTypes.USER"></app-dashboard-card>
+            
+                    <app-dashboard-card [value]="totalAdminUsers" title="Approved Applications"
+                        [icon]="allIconTypes.APPLICATION"></app-dashboard-card>
+                    <app-dashboard-card [value]="totalRegularUsers" title="Pending Applications"
+                        [icon]="allIconTypes.APPLICATION"></app-dashboard-card>
+                </div>
+            </div>
+        </div>
+        <div class="flex flex-col gap-4">
+            <app-typography type="h4" text="Applications Metrics"></app-typography>
+            <div class="flex flex-row flex-wrap gap-4">
+                <app-dashboard-card [value]="totalApplications" title="Total Applications"
+                    [icon]="allIconTypes.APPLICATION"></app-dashboard-card>
+                <app-dashboard-card [value]="totalApprovedApplications" title="Total Applications"
+                    [icon]="allIconTypes.APPLICATION"></app-dashboard-card>
+                <app-dashboard-card [value]="totalCanceledApplications" title="Total Applications"
+                    [icon]="allIconTypes.APPLICATION"></app-dashboard-card>
+                <app-dashboard-card [value]="totalPendingApplications" title="Total Applications"
+                    [icon]="allIconTypes.APPLICATION"></app-dashboard-card>
+            </div>
+        </div>
+    </div>
+    <hr/>
 </div>

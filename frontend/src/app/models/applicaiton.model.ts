@@ -10,3 +10,10 @@ export interface AdoptionApplication {
     updatedAt: string;
     [key: string]: unknown;
 }
+
+export interface ApplicationsMetrics {
+    totalApprovedApplications: number;
+    totalApplications: number;
+    totalCanceledApplications: number;
+    totalPendingApplications: number;
+}

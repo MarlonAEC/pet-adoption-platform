@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ButtonComponent } from "../../components/button/button.component";
 import { TableComponent } from "../../components/table/table.component";
 import { ApplicationService } from '../../services/application.service';
 import { AdoptionApplication } from '../../models/applicaiton.model';
@@ -9,7 +8,7 @@ import { PageHandlerComponent } from "../../components/page-handler/page-handler
 @Component({
   selector: 'app-applications-dashboard',
   standalone: true,
-  imports: [ButtonComponent, TableComponent, PageHandlerComponent],
+  imports: [TableComponent, PageHandlerComponent],
   templateUrl: './applications-dashboard.component.html',
   styleUrl: './applications-dashboard.component.css'
 })

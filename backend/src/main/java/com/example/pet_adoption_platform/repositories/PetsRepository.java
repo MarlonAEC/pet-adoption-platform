@@ -7,4 +7,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PetsRepository  extends JpaRepository<Pet, String> {
+    long countByAdoptedFalse();
+
+    long countByAdoptedTrue();
 }

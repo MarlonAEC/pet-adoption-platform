@@ -67,3 +67,9 @@ export interface Page<T>{
 }
 
 export type PetResponse = Page<Pet>;
+
+export interface PetMetrics {
+    totalPets: number;
+    totalAdoptedPets: number;
+    totalAvailablePets: number;
+}

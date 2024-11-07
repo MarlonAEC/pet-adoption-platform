@@ -8,4 +8,6 @@ import java.util.Optional;
 
 public interface AdoptionApplicationRepository extends JpaRepository<AdoptionApplication, String> {
     public Optional<AdoptionApplication> findByUserAndPetId(User user, Long petId);
+
+    Object countByStatus(String pending);
 }
