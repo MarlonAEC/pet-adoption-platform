@@ -26,4 +26,20 @@ export class ApplicationsDashboardComponent implements OnInit {
       console.error(error);
     }
   }
+
+  handleMainAction(application: AdoptionApplication): void {
+    this.applicationService.approveApplication(application).subscribe({
+      next: () => {
+        alert("Application approved successfully!");
+        this.applicationService.fetchApplications();
+      },
+      error: (error) => {
+        console.error(error);
+      }
+    })
+  }
+
+  handleSecondaryAction(application: AdoptionApplication): void {
+    console.log("🚀 ~ ApplicationsDashboardComponent ~ handleSecondaryAction ~ application", application);
+  }
 }

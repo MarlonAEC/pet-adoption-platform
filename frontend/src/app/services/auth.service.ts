@@ -87,7 +87,7 @@ export class AuthService {
     }
   }
 
-  retrieveCredentials() {
+  retrieveCredentialsFromLocalStorage() {
     try {
       const jwtToken = localStorage.getItem('jwtToken');
       const username = localStorage.getItem('username');

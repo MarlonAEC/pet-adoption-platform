@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/router';
 import { TypographyComponent } from '../../../components/typography/typography.component';
-import { filter } from 'rxjs';
+import { filter, combineLatest } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../services/auth.service';
 
@@ -34,42 +34,47 @@ export class AdminNavbarComponent implements OnInit {
         this.currentUrl = event.urlAfterRedirects;
       });
 
-      this.menuItems = [
-    { 
-      id: "home",
-      title: 'Home',
-      icon: 'dashboard', 
-      path: '/dashboard',
-      shouldShow: true,
-    },
-    { 
-      id: "process-applications",
-      title: 'Applications',
-      icon: 'document-plus', 
-      path: '/applications-dashboard',
-      shouldShow: this.authService.isAdmin.getValue(),
-    },
-    { 
-      id: "create-pet",
-      title: 'Pets',
-      icon: 'pet-icon', 
-      path: '/pets-dashboard',
-      shouldShow: this.authService.isAdmin.getValue(),
-    },
-    { 
-      id: "logout",
-      title: 'Logout',
-      icon: 'logout', 
-      path: '/logout',
-      shouldShow: this.authService.isLogged.getValue(),
-    },
-    { 
-      id: "login",
-      title: 'Login',
-      icon: 'login', 
-      path: '/login',
-      shouldShow: !this.authService.isLogged.getValue(),
-    },
-  ];
+      combineLatest([
+        this.authService.isAdmin,
+        this.authService.isLogged
+      ]).subscribe(([isAdmin, isLogged]) => {
+        this.menuItems = [
+          { 
+            id: "home",
+            title: 'Home',
+            icon: 'dashboard', 
+            path: '/dashboard',
+            shouldShow: true,
+          },
+          { 
+            id: "process-applications",
+            title: 'Applications',
+            icon: 'document-plus', 
+            path: '/applications-dashboard',
+            shouldShow: isAdmin && isLogged,
+          },
+          { 
+            id: "create-pet",
+            title: 'Pets',
+            icon: 'pet-icon', 
+            path: '/pets-dashboard',
+            shouldShow: isAdmin && isLogged,
+          },
+          { 
+            id: "logout",
+            title: 'Logout',
+            icon: 'logout', 
+            path: '/logout',
+            shouldShow: isLogged,
+          },
+          { 
+            id: "login",
+            title: 'Login',
+            icon: 'login', 
+            path: '/login',
+            shouldShow: !isLogged,
+          },
+        ];
+      });
   }
 }

@@ -1,5 +1,5 @@
 <div class="p-4 h-full overflow-scroll">
     <div class="w-full h-fit">
-        <app-table [elements]="elements"></app-table>
+        <app-table [elements]="elements" (handleMainAction)="handleMainAction($event)" (handleSecondaryAction)="handleSecondaryAction($event)"></app-table>
     </div>
 </div>

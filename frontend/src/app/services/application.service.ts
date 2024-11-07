@@ -22,7 +22,21 @@ export class ApplicationService {
           'Authorization': `Bearer ${this.authService.jwtToken.getValue()}`,
           'Content-Type': 'application/json',
         },
-        withCredentials: false
+      })
+    } else {
+      throw new Error('Unauthorized');
+    }
+  }
+
+  approveApplication(application: AdoptionApplication) {
+    if(this.authService.isAdmin.getValue()){
+      return this.http.put<AdoptionApplication>(`${API_BASE_URL}/adoption-applications/${application.id}`, {
+        status: 'APPROVED'
+      }, {
+        headers: {
+          'Authorization': `Bearer ${this.authService.jwtToken.getValue()}`,
+          'Content-Type': 'application/json',
+        },
       })
     } else {
       throw new Error('Unauthorized');
