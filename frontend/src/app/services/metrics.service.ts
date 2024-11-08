@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { API_BASE_URL } from '../constants/api';
 import { AuthService } from './auth.service';
 import { PetMetrics } from '../models/pet.model';
-import { ApplicationsMetrics } from '../models/applicaiton.model';
+import { ApplicationsMetrics } from '../models/application.model';
 import { UserMetrics } from '../models/user.model';
 
 @Injectable({

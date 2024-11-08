@@ -46,6 +46,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests((authorizeRequest) -> authorizeRequest
                         .requestMatchers("/images/**").permitAll()
                         .requestMatchers("/auth/login").permitAll()
+                        .requestMatchers("/auth/refresh-token").permitAll()
                         .requestMatchers("/auth/sign-up").permitAll()
                         .requestMatchers("/pets").permitAll()
                         .requestMatchers("/pets/filter").permitAll()

@@ -7,7 +7,7 @@ import { SideFilterComponent } from "../../components/side-filter/side-filter.co
 import { FilterService } from '../../services/filter.service';
 import { PetService } from '../../services/pet.service';
 import { PageHandlerComponent } from '../../components/page-handler/page-handler.component';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-find-pet-page',
@@ -56,17 +56,12 @@ export class FindPetPageComponent implements OnInit {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
 
-    this.filterService.currentFilterHash.subscribe({
-      next: (hash) => {
-        this.fetchPets(hash);
-      }
-    });
-
-    this.currentPage$.subscribe({
-      next: (page) => {
-        this.fetchPets(this.filterService.getCurrentFilterHash());
-      }
-    }); 
+    combineLatest([
+    this.filterService.currentFilterHash,
+    this.currentPage$
+  ]).subscribe(([hash, page]) => {
+    this.fetchPets(hash);
+  });
   }
 
   private fetchPets(hash: string): void {

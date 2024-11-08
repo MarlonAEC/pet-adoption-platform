@@ -1,12 +1,10 @@
 package com.example.pet_adoption_platform.controller;
 
+import com.example.pet_adoption_platform.DTOs.*;
 import com.example.pet_adoption_platform.entities.User;
 import com.example.pet_adoption_platform.jwt.JwtUtils;
-import com.example.pet_adoption_platform.DTOs.LoginRequestDTO;
-import com.example.pet_adoption_platform.DTOs.LoginResponseDTO;
 import com.example.pet_adoption_platform.repositories.UserRepository;
 import com.example.pet_adoption_platform.services.Authentication.AuthenticationService;
-import com.example.pet_adoption_platform.DTOs.RegisterUserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,15 +12,14 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/auth")
@@ -40,6 +37,9 @@ public class AuthController {
     @Autowired
     private AuthenticationService authenticationService;
 
+    @Autowired
+    private UserDetailsService userDetailsService;
+
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequestDTO loginRequest) {
         Authentication authentication;
@@ -53,19 +53,22 @@ public class AuthController {
             return new ResponseEntity<Object>(map, HttpStatus.UNAUTHORIZED);
         }
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        if(userRepository.existsById(loginRequest.getUsername())) {
+            SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            UserDetails userDetails = userDetailsService.loadUserByUsername(loginRequest.getUsername());
+            String jwtToken = jwtUtils.generateTokenFromUsername(userDetails);
+            String refreshToken = jwtUtils.generateRefreshTokenFromUsername(userDetails);
 
-        String jwtToken = jwtUtils.generateTokenFromUsername(userDetails);
+            LoginResponseDTO response = new LoginResponseDTO(userDetails.getUsername(), userDetails.getAuthorities(), jwtToken, refreshToken);
 
-        List<String> roles = userDetails.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList());
+            return ResponseEntity.ok(response);
+        }
 
-        LoginResponseDTO response = new LoginResponseDTO(userDetails.getUsername(), roles, jwtToken);
-
-        return ResponseEntity.ok(response);
+        Map<String, Object> map = new HashMap<>();
+        map.put("message", "Invalid credentials");
+        map.put("status", false);
+        return new ResponseEntity<Object>(map, HttpStatus.UNAUTHORIZED);
     }
 
     @PostMapping("/sign-up")
@@ -92,22 +95,26 @@ public class AuthController {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        UserDetails userDetails = userDetailsService.loadUserByUsername(input.getUsername());
         String jwtToken = jwtUtils.generateTokenFromUsername(userDetails);
-        List<String> roles = userDetails.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList());
+        String refreshToken = jwtUtils.generateRefreshTokenFromUsername(userDetails);
 
-        LoginResponseDTO response = new LoginResponseDTO(userDetails.getUsername(), roles, jwtToken);
+        LoginResponseDTO response = new LoginResponseDTO(userDetails.getUsername(), userDetails.getAuthorities(), jwtToken, refreshToken);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @GetMapping("/logout")
-    public ResponseEntity<?> logoutUser(){
-        SecurityContextHolder.clearContext();
-        Map<String, Object> map = new HashMap<>();
-        map.put("message", "User logged out successfully");
-        map.put("status", true);
-        return ResponseEntity.ok(map);
+    @PostMapping("/refresh-token")
+    public Optional<LoginResponseDTO> refreshToken(@RequestBody TokenRefreshDTO request){
+        String requestRefreshToken = request.getRefreshToken();
+
+        if(jwtUtils.validateRefreshToken(requestRefreshToken)){
+            String username = jwtUtils.getUserNameFromRefreshToken(requestRefreshToken);
+            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+            String token = jwtUtils.generateTokenFromUsername(userDetails);
+            String newRefreshToken = jwtUtils.generateRefreshTokenFromUsername(userDetails);
+
+            return Optional.of(new LoginResponseDTO(userDetails.getUsername(), userDetails.getAuthorities(), token, newRefreshToken));
+        }
+        return Optional.empty();
     }
 }

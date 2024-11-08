@@ -3,7 +3,7 @@ import { AuthService } from './auth.service';
 import { HttpClient } from '@angular/common/http';
 import { API_BASE_URL } from '../constants/api';
 import { Page } from '../models/pet.model';
-import { AdoptionApplication } from '../models/applicaiton.model';
+import { AdoptionApplication } from '../models/application.model';
 
 @Injectable({
   providedIn: 'root'

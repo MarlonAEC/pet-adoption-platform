@@ -2,8 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { API_BASE_URL } from '../constants/api';
 import { AuthRequest, AuthResponse, UserInput } from '../models/user.model';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { Error } from '../models/error.model';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +11,7 @@ export class AuthService {
 
   isLogged = new BehaviorSubject<boolean>(false);
   jwtToken = new BehaviorSubject<string>('');
+  refreshToken = new BehaviorSubject<string>('');
   username = new BehaviorSubject<string>('');
   roles = new BehaviorSubject<string[]>([]);
   error = new BehaviorSubject<string>('');
@@ -31,7 +31,7 @@ export class AuthService {
     res.subscribe({
         next: (data) => {
             this.updateAuthState(data);
-            this.storeCredentials(data.jwtToken, data.username, data.roles);
+            this.storeCredentials(data);
         },
         error: (error: Error) => this.error.next(error.message)
     });
@@ -51,37 +51,67 @@ export class AuthService {
       name,
       email,
       address
-  }, {
-    headers: {
-      'Content-Type': 'application/json'
+    }, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    res.subscribe({
+      next: (data) => {
+          this.updateAuthState(data);
+          this.storeCredentials(data);
+      },
+      error: (error: HttpErrorResponse) => {
+        console.log(error);
+        this.error.next(error.error.message);
+      }
+    });
+    return res;
+  }
+
+  generateNewTokens(): Observable<AuthResponse>{
+    const refreshToken = this.refreshToken.getValue();
+
+    if(!refreshToken){
+      this.logout();
+      return throwError(()=> new Error('No refresh token available'));
     }
-  });
-  res.subscribe({
-    next: (data) => {
-        this.updateAuthState(data);
-        this.storeCredentials(data.jwtToken, data.username, data.roles);
-    },
-    error: (error: HttpErrorResponse) => {
-      console.log(error);
-      this.error.next(error.error.message);
-    }
-  });
-  return res;
-}
+
+    const res = this.http.post<AuthResponse>(`${API_BASE_URL}/auth/refresh-token`, { refreshToken }, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    res.subscribe({
+      next: (data) => {
+          this.updateAuthState(data);
+          this.storeCredentials(data);
+      },
+      error: (error: HttpErrorResponse) => {
+        console.log(error);
+        this.error.next(error.error.message);
+      }
+    });
+
+    return res;
+  }
 
   logout(){
     this.isLogged.next(false);
     this.jwtToken.next('');
     this.username.next('');
+    this.refreshToken.next('');
     this.roles.next([]);
     this.cleanLocalStorage();
   }
 
-  storeCredentials(jwtToken: string, username: string, roles: string[]) {
+  storeCredentials(data: AuthResponse) {
     try {
-      localStorage.setItem('jwtToken', jwtToken);
-      localStorage.setItem('username', username);
-      localStorage.setItem('roles', JSON.stringify(roles));
+      localStorage.setItem('jwtToken', data.jwtToken);
+      localStorage.setItem('refreshToken', data.refreshToken);
+      localStorage.setItem('username', data.username);
+      localStorage.setItem('roles', JSON.stringify(data.roles));
     } catch (error) {
         console.error('Error storing credentials: ', error);
     }
@@ -91,9 +121,10 @@ export class AuthService {
     try {
       const jwtToken = localStorage.getItem('jwtToken');
       const username = localStorage.getItem('username');
-      const roles = JSON.parse(localStorage.getItem('roles') || '[]');
-      if (jwtToken && username && roles) {
-          this.updateAuthState({ jwtToken, username, roles });
+      const roles = JSON.parse(localStorage.getItem('roles') ?? '[]');
+      const refreshToken = localStorage.getItem('refreshToken');
+      if (jwtToken && username && roles && refreshToken) {
+          this.updateAuthState({ jwtToken, username, roles, refreshToken });
       }
     } catch (error) {
         console.error('Error retrieving credentials: ', error);
@@ -104,6 +135,7 @@ export class AuthService {
     this.isLogged.next(true);
     this.jwtToken.next(data.jwtToken);
     this.username.next(data.username);
+    this.refreshToken.next(data.refreshToken);
     this.roles.next(data.roles);
     if(this.roles.value.includes('ROLE_ADMIN')){
       this.isAdmin.next(true);

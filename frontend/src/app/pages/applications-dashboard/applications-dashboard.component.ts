@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TableComponent } from "../../components/table/table.component";
 import { ApplicationService } from '../../services/application.service';
-import { AdoptionApplication } from '../../models/applicaiton.model';
+import { AdoptionApplication } from '../../models/application.model';
 import { BehaviorSubject } from 'rxjs';
 import { PageHandlerComponent } from "../../components/page-handler/page-handler.component";
 

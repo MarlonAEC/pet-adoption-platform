@@ -1,5 +1,6 @@
 export interface AuthResponse {
     jwtToken: string;
+    refreshToken: string;
     username: string;
     roles: string[];
 }

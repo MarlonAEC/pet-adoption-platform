@@ -20,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +34,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.locks.ReentrantLock;
 
 @RestController
 @RequestMapping("/pets")
@@ -52,6 +54,7 @@ public class PetsController {
     private ImageRepository imageRepository;
 
     @GetMapping
+    @Transactional
     public ResponseEntity<?> getAllPets(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
@@ -82,6 +85,7 @@ public class PetsController {
     }
 
     @PostMapping("/filter")
+    @Transactional
     public ResponseEntity<?> createFilter(@RequestBody PetFilterDTO filter) {
         try {
             if(!petService.isValidFilterType(filter)){
@@ -94,27 +98,30 @@ public class PetsController {
 
             String hash = DigestUtils.md5DigestAsHex(jsonString.getBytes());
 
-            Optional<PetFilterHash> existingFilter = petFilterHashRepository.findByHash(hash);
-            if(existingFilter.isPresent()){
+            synchronized (this){
+                Optional<PetFilterHash> existingFilter = petFilterHashRepository.findByHash(hash);
+                if(existingFilter.isPresent()){
+                    Map<String, String> response = new HashMap<>();
+                    response.put("hash", hash);
+                    return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
+                }
+
+                PetFilterHash filterEntity = new PetFilterHash();
+                filterEntity.setHash(hash);
+                filterEntity.setJsonString(jsonString);
+                petFilterHashRepository.save(filterEntity);
+
                 Map<String, String> response = new HashMap<>();
                 response.put("hash", hash);
-                return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
+                return ResponseEntity.status(HttpStatus.CREATED).body(response);
             }
-
-            PetFilterHash filterEntity = new PetFilterHash();
-            filterEntity.setHash(hash);
-            filterEntity.setJsonString(jsonString);
-            petFilterHashRepository.save(filterEntity);
-
-            Map<String, String> response = new HashMap<>();
-            response.put("hash", hash);
-            return ResponseEntity.status(HttpStatus.CREATED).body(response);
         } catch (JsonProcessingException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error processing filter JSON");
         }
     }
 
     @GetMapping("/{id}")
+    @Transactional
     public ResponseEntity<?> getPetById(@PathVariable Long id) {
         Optional<Pet> pet = petRepository.findById(String.valueOf(id));
         if (pet.isPresent()) {

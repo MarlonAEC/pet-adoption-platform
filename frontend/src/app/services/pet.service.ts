@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { Pet, PetResponse } from '../models/pet.model';
 import { API_BASE_URL } from '../constants/api';
 import { AuthService } from './auth.service';
-import { AdoptionApplication } from '../models/applicaiton.model';
+import { AdoptionApplication } from '../models/application.model';
 
 @Injectable({
   providedIn: 'root'
