@@ -2,15 +2,19 @@ package com.example.pet_adoption_platform.utils;
 
 import com.example.pet_adoption_platform.entities.Image;
 import com.example.pet_adoption_platform.entities.Pet;
+import com.example.pet_adoption_platform.jwt.AuthTokenFilter;
 import com.example.pet_adoption_platform.repositories.ImageRepository;
 import com.example.pet_adoption_platform.repositories.PetsRepository;
 import com.github.javafaker.Faker;
 import jakarta.annotation.PostConstruct;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -18,6 +22,9 @@ import java.util.*;
 
 @Component
 public class PetDataGenerator {
+    private static final String SOURCE_IMAGE_DIRECTORY = "src/main/resources/static/defaults/";
+    private static final String DESTINATION_IMAGE_DIRECTORY = "uploaded_images/";
+    private static final Logger logger = LoggerFactory.getLogger(PetDataGenerator.class);
 
     @Autowired
     private PetsRepository petsRepository;
@@ -30,6 +37,21 @@ public class PetDataGenerator {
     @PostConstruct
     public void generateData() throws IOException {
         List<Pet> pets = new ArrayList<>();
+        List<String> predefinedImages = new ArrayList<>(List.of(Objects.requireNonNull(new File(SOURCE_IMAGE_DIRECTORY).list())));
+
+        try {
+            File destinationDirectory = new File(DESTINATION_IMAGE_DIRECTORY);
+            if (destinationDirectory.exists()) {
+                deleteDirectory(destinationDirectory);
+            }
+            // Recreate the directory after deletion
+            destinationDirectory.mkdirs();
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle the error appropriately
+            System.err.println("Failed to delete the images directory.");
+            return; // Exit the method if unable to delete the directory
+        }
 
         for(int i = 0; i < 1000; i++) {
             Pet pet = new Pet();
@@ -75,41 +97,66 @@ public class PetDataGenerator {
             pet.setFavourite_things(favoriteThings);
             pet.setRequirements_for_new_home(requirements);
 
-//            petsRepository.save(pet);
+            petsRepository.save(pet);
 
-//            List<String> imageUrl = new ArrayList<>();
-//            imageUrl.add("static/images/1.jpg");
-//            imageUrl.add("static/images/2.jpg");
-//            imageUrl.add("static/images/3.jpg");
-//            imageUrl.add("static/images/4.jpg");
-//            imageUrl.add("static/images/5.jpg");
-//            imageUrl.add("static/images/6.jpg");
-//            imageUrl.add("static/images/7.jpg");
-//            imageUrl.add("static/images/8.jpg");
-//            imageUrl.add("static/images/9.jpg");
-//            imageUrl.add("static/images/10.jpg");
-//            imageUrl.add("static/images/11.jpg");
-//            imageUrl.add("static/images/12.jpg");
-//            imageUrl.add("static/images/13.jpg");
-//
-//            List<Image> selectedImages = new ArrayList<>();
-//            int numberOfImages = faker.number().numberBetween(2, imageUrl.size() / 2); // Random number of images
-//            List<String> imageUrlList = new ArrayList<>(imageUrl);
-//            Collections.shuffle(imageUrlList);
-//            for (int j = 0; j < numberOfImages; j++) {
-//                String imageFile = imageUrlList.get(j);
-//                Image image = new Image();
-//                image.setData(Files.readAllBytes(new ClassPathResource(imageFile).getFile().toPath()));
-//                String filename = UUID.randomUUID().toString() + "_" + imageFile.substring(imageFile.lastIndexOf("/") + 1);
-//                image.setUrl("/images/" + filename);
-//                image.setPet(pet);
-//                selectedImages.add(image);
-//                imageRepository.save(image);
-//            }
-//            pet.setImages(selectedImages);
+            int numberOfImagesToGenerate = faker.number().numberBetween(3, 5);
 
-            pets.add(pet);
+            if(numberOfImagesToGenerate > predefinedImages.size()){
+                numberOfImagesToGenerate = predefinedImages.size();
+            }
+
+            if(!predefinedImages.isEmpty()){
+                // Creating directory if it doesn't exist
+                File destinationDirectory = new File(DESTINATION_IMAGE_DIRECTORY);
+                if (!destinationDirectory.exists()) {
+                    destinationDirectory.mkdirs();
+                }
+
+                List<Image> images = new ArrayList<>();
+
+                for(int j = 0; j < numberOfImagesToGenerate; j++) {
+                    String randomImage = predefinedImages.get(faker.number().numberBetween(0, predefinedImages.size() - 1));
+                    File sourceImageFile = new File(SOURCE_IMAGE_DIRECTORY + randomImage);
+
+                    if (!sourceImageFile.exists()) {
+                        logger.info("Source image file does not exist skipping for now: {}", sourceImageFile.getAbsolutePath());
+                        continue;
+                    }
+
+                    String uniqueFileName = UUID.randomUUID() + "_" + randomImage;
+                    File destinationImageFile = new File(DESTINATION_IMAGE_DIRECTORY + uniqueFileName);
+
+                    try {
+                        Files.copy(sourceImageFile.toPath(), destinationImageFile.toPath());
+                        byte[] imageData = Files.readAllBytes(destinationImageFile.toPath());
+                        Image image = new Image();
+                        image.setPet(pet);
+                        image.setUrl("/images/" + uniqueFileName);
+                        image.setData(imageData);
+                        imageRepository.save(image);
+                        images.add(image);
+
+
+                    } catch (IOException e) {
+                        logger.error("Error copying image file from {} to {}: {}", sourceImageFile.getAbsolutePath(), destinationImageFile.getAbsolutePath(), e);
+                    }
+                }
+                pet.setImages(images);
+            }
+            petsRepository.save(pet);
         }
         petsRepository.saveAll(pets);
+    }
+
+    // Helper method to delete a directory recursively
+    private void deleteDirectory(File directory) throws IOException {
+        Path directoryPath = directory.toPath();
+
+        if (Files.exists(directoryPath)) {
+            Files.walk(directoryPath)
+                    .sorted(Comparator.reverseOrder())
+                    .map(Path::toFile)
+                    .forEach(File::delete);
+        }
     }
 }

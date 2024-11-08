@@ -1,8 +1,9 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 import { Pet } from '../../models/pet.model';
 import { TypographyComponent } from '../typography/typography.component';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { API_BASE_URL } from '../../constants/api';
 
 @Component({
   selector: 'app-pet-card',
@@ -48,5 +49,17 @@ export class PetCardComponent {
     health: '',
     sex: ''
   };
-  imageToDisplay: string = this.pet.images[0] ?? '/assets/placeholder.svg';
+  imageToDisplay: string = '/assets/placeholder.svg';
+
+  ngOnChanges(changes: SimpleChanges): void {
+    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
+    //Add '${implements OnChanges}' to the class.
+    if (changes['pet']) {
+      this.updateImageToDisplay();
+    }
+  }
+
+  private updateImageToDisplay(): void {
+    this.imageToDisplay = this.pet.images[0] ? `${API_BASE_URL}${this.pet.images[0]}` : '/assets/placeholder.svg';
+  }
 }

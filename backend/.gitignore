@@ -10,3 +10,4 @@ pom.xml.tag
 *.rar
 hs_err_pid*
 .DS_Store
+/uploaded_images

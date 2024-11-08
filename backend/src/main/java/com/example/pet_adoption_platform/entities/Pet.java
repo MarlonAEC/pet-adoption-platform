@@ -1,5 +1,7 @@
 package com.example.pet_adoption_platform.entities;
 
+import com.example.pet_adoption_platform.utils.ImageUrlSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -82,6 +84,8 @@ public class Pet {
     private Boolean adopted;
 
     @OneToMany(mappedBy = "pet", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Column(name = "images")
+    @JsonSerialize(using = ImageUrlSerializer.class)
     private List<Image> images;
 
     private LocalDateTime createdAt;
