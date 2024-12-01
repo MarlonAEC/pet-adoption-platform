@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { API_BASE_URL } from '../constants/api';
-import { AuthRequest, AuthResponse, UserInput } from '../models/user.model';
+import { AuthAuthority, AuthRequest, AuthResponse, UserInput } from '../models/user.model';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 
 @Injectable({
@@ -13,7 +13,7 @@ export class AuthService {
   jwtToken = new BehaviorSubject<string>('');
   refreshToken = new BehaviorSubject<string>('');
   username = new BehaviorSubject<string>('');
-  roles = new BehaviorSubject<string[]>([]);
+  roles = new BehaviorSubject<AuthAuthority[]>([]);
   error = new BehaviorSubject<string>('');
   isAdmin = new BehaviorSubject<boolean>(false);
 
@@ -131,13 +131,18 @@ export class AuthService {
     }
   }
 
+  isAdminUser(): boolean {
+    return this.roles.value.some((role) => role.authority === 'ROLE_ADMIN');
+  }
+
   updateAuthState(data: AuthResponse) {
     this.isLogged.next(true);
     this.jwtToken.next(data.jwtToken);
     this.username.next(data.username);
     this.refreshToken.next(data.refreshToken);
     this.roles.next(data.roles);
-    if(this.roles.value.includes('ROLE_ADMIN')){
+    console.log(data.roles);
+    if(this.isAdminUser()){
       this.isAdmin.next(true);
     }
   }

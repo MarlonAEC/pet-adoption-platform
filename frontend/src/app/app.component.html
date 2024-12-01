@@ -1,8 +1,8 @@
 <div class="bg-neutral2-500 h-screen">
-  @if(isAdmin && isLogged){
+  <ng-container *ngIf="(isAdmin$ | async) && (isLogged$ | async); else mainLayout">
     <app-admin-layout></app-admin-layout>
-    
-  } @else {
+  </ng-container>
+  <ng-template #mainLayout>
     <app-main-layout></app-main-layout>
-  }
+  </ng-template>
 </div>

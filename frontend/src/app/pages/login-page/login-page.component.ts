@@ -55,7 +55,7 @@ export class LoginPageComponent {
       password: this.password
     }).subscribe({
       next: (res) => {
-        if(res.roles.includes("ROLE_ADMIN"))
+        if(this.authService.isAdminUser())
           this.router.navigate(['/dashboard']);
         else
           this.router.navigate(['/find-pets']);

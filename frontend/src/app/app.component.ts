@@ -6,7 +6,7 @@ import { PetService } from './services/pet.service';
 import { AuthService } from './services/auth.service';
 import { CommonModule } from '@angular/common';
 import { AdminLayoutComponent } from "./layouts/admin-layout/admin-layout.component";
-import { combineLatest } from 'rxjs';
+import { BehaviorSubject, combineLatest } from 'rxjs';
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -18,8 +18,8 @@ export class AppComponent implements OnInit {
   title = 'pet-adoption-frontend';
   isButtonDisabled: boolean = true;
   pets: Pet[] = [];
-  isAdmin: boolean = false;
-  isLogged: boolean = false;
+  isAdmin$ = new BehaviorSubject<boolean>(false);
+  isLogged$ = new BehaviorSubject<boolean>(false);
 
   constructor(
     private readonly petService: PetService,
@@ -36,8 +36,8 @@ export class AppComponent implements OnInit {
       this.authService.isAdmin,
       this.authService.isLogged
     ]).subscribe(([isAdmin, isLogged]) => {
-      this.isAdmin = isAdmin ?? false;
-      this.isLogged = isLogged ?? false;
+      this.isAdmin$.next(isAdmin ?? false);
+      this.isLogged$.next(isLogged ?? false);
       this.cdr.detectChanges();
     });
   }
