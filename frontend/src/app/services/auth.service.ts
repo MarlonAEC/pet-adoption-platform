@@ -131,7 +131,10 @@ export class AuthService {
     }
   }
 
-  isAdminUser(): boolean {
+  isAdminUser(roles?: AuthAuthority[]): boolean {
+    if(roles){
+      return roles.some((role) => role.authority === 'ROLE_ADMIN');
+    }
     return this.roles.value.some((role) => role.authority === 'ROLE_ADMIN');
   }
 

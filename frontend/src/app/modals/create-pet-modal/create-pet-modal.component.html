@@ -1,106 +1,137 @@
 <div class="bg-white p-8 rounded-lg h-[90vh] my-4 py-4 shadow-lg w-full flex flex-row overflow-scroll scro">
-    <form class="w-full h-fit" [formGroup]="form" (ngSubmit)="submit()">
-        <div class="flex flex-col gap-4">
-            <section class="fade-in-animation flex flex-col gap-4 mb-4">
-                <app-typography text="Basic Information" type="h4"></app-typography>
-                <div class="flex flex-row gap-4">
-                    <div class="flex flex-col gap-2">
-                        <app-input formControlName="name" label="Name" placeholder="Enter pet name"></app-input>
+    @if (step === 0){
+        <form class="w-full h-fit" [formGroup]="form" (ngSubmit)="submit()">
+            <div class="flex flex-col gap-4">
+                <section class="fade-in-animation flex flex-col gap-4 mb-4">
+                    <app-typography text="Basic Information" type="h4"></app-typography>
+                    <div class="flex flex-row gap-4">
+                        <div class="flex flex-col gap-2">
+                            <app-input formControlName="name" label="Name" placeholder="Enter pet name"></app-input>
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <app-input formControlName="breed" label="Breed" placeholder="Enter pet breed"></app-input>
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <app-input formControlName="age" label="Age" placeholder="Enter pet age"></app-input>
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <app-input formControlName="background" label="Background" placeholder="Enter pet background"></app-input>
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <app-input formControlName="sex" label="Pet gender" placeholder="Enter pet gender"></app-input>
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <app-input formControlName="value" label="Adoption Value" placeholder="Enter pet adoption value"></app-input>
+                        </div>
                     </div>
                     <div class="flex flex-col gap-2">
-                        <app-input formControlName="breed" label="Breed" placeholder="Enter pet breed"></app-input>
+                        <label for="description" class="text-sm font-semibold text-gray-600">Description</label>
+                        <textarea id="description" name="description" class="py-2 px-4 rounded-lg border border-gray-200"
+                            formControlName="description"></textarea>
+                    </div>
+                </section>
+                <hr class="fade-in-animation mb-4"/>
+                <section class="fade-in-animation flex flex-col gap-4 mb-4">
+                    <app-typography text="Additional Info" type="h4"></app-typography>
+                    <div class="flex flex-row gap-4">
+                        <div class="flex flex-col gap-2">
+                            <app-input formControlName="address" label="Address" placeholder="Enter pet address"></app-input>
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <app-input formControlName="postal_code" label="Postal Code" placeholder="Enter postal code"></app-input>
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <app-input formControlName="species" label="Specie" placeholder="Enter pet specie"></app-input>
+                        </div>
                     </div>
                     <div class="flex flex-col gap-2">
-                        <app-input formControlName="age" label="Age" placeholder="Enter pet age"></app-input>
+                        <label for="description" class="text-sm font-semibold text-gray-600">Health condition</label>
+                        <textarea id="health" name="health" class="py-2 px-4 rounded-lg border border-gray-200"
+                            formControlName="health"></textarea>
                     </div>
-                    <div class="flex flex-col gap-2">
-                        <app-input formControlName="background" label="Background" placeholder="Enter pet background"></app-input>
-                    </div>
-                    <div class="flex flex-col gap-2">
-                        <app-input formControlName="sex" label="Pet gender" placeholder="Enter pet gender"></app-input>
-                    </div>
-                    <div class="flex flex-col gap-2">
-                        <app-input formControlName="value" label="Adoption Value" placeholder="Enter pet adoption value"></app-input>
-                    </div>
-                </div>
-                <div class="flex flex-col gap-2">
-                    <label for="description" class="text-sm font-semibold text-gray-600">Description</label>
-                    <textarea id="description" name="description" class="py-2 px-4 rounded-lg border border-gray-200"
-                        formControlName="description"></textarea>
-                </div>
-            </section>
-            <hr class="fade-in-animation mb-4"/>
-            <section class="fade-in-animation flex flex-col gap-4 mb-4">
-                <app-typography text="Additional Info" type="h4"></app-typography>
-                <div class="flex flex-row gap-4">
-                    <div class="flex flex-col gap-2">
-                        <app-input formControlName="address" label="Address" placeholder="Enter pet address"></app-input>
-                    </div>
-                    <div class="flex flex-col gap-2">
-                        <app-input formControlName="postal_code" label="Postal Code" placeholder="Enter postal code"></app-input>
-                    </div>
-                    <div class="flex flex-col gap-2">
-                        <app-input formControlName="species" label="Specie" placeholder="Enter pet specie"></app-input>
-                    </div>
-                </div>
-                <div class="flex flex-col gap-2">
-                    <label for="description" class="text-sm font-semibold text-gray-600">Health condition</label>
-                    <textarea id="health" name="health" class="py-2 px-4 rounded-lg border border-gray-200"
-                        formControlName="health"></textarea>
-                </div>
-            </section>
-            <hr class="fade-in-animation" />
-            <section class="fade-in-animation flex flex-col gap-4 mb-4 w-full h-full">
-                <div class="flex flex-row gap-4">
-                    <div class="w-1/2 border-r-2 px-4">
-                        <app-typography text="Temperament Information" type="h4"></app-typography>
-                        <app-line-selector formControlName="temperament_how_calmed" labelStart="Chilled"
-                            labelEnd="Hyper"></app-line-selector>
-                        <app-line-selector formControlName="temperament_how_social" labelStart="Cuddler"
-                            labelEnd="Independent"></app-line-selector>
-                        <app-line-selector formControlName="temperament_how_attention_seeking" labelStart="Happy Alone"
-                            labelEnd="Separation Anxiety"></app-line-selector>
-                        <app-line-selector formControlName="temperament_how_active" labelStart="Low Exercise"
-                            labelEnd="High Exercise"></app-line-selector>
-                        <app-line-selector formControlName="temperament_how_loud" labelStart="Quiet" labelEnd="Noisy"></app-line-selector>
-                    </div>
-                    <div class="w-1/2 h-full px-4 flex flex-col py-6">
-                        <app-typography text="Affinities and other details" type="h4"></app-typography>
-                        <div class="checkboxes-container flex flex-row h-20 justify-between">
-                            <div class="flex flex-col">
-                                <app-checkbox formControlName="_good_with_kids" label="Good with Kids" checkboxId="_good_with_kids" ngDefaultControl></app-checkbox>
-                                <app-checkbox name="Good with Cats" formControlName="_good_with_cats" checkboxId="good_with_cats" label="Good with Cats"></app-checkbox>
-                                <app-checkbox name="Good with Dogs" formControlName="_good_with_dogs" checkboxId="good_with_dogs" label="Good with Dogs"></app-checkbox>
-                                <app-checkbox name="Spayed" formControlName="_spayed" checkboxId="spayed" label="Spayed"></app-checkbox>
-                                <app-checkbox name="Vaccinated" formControlName="_vaccinated" checkboxId="vaccinated" label="Vaccinated"></app-checkbox>
-                                <app-checkbox name="Wormed" formControlName="_wormed" checkboxId="wormed" label="Wormed"></app-checkbox>
-                                <app-checkbox name="Declawed" formControlName="_declawed" checkboxId="declawed" label="Declawed"></app-checkbox>
-                                <app-checkbox name="House Trained" formControlName="_house_trained" checkboxId="house_trained" label="House Trained"></app-checkbox>
-                            </div>
-                            <div class="flex flex-col gap-4 mt-4">
-                                <div class="flex flex-col gap-2">
-                                    <app-input formControlName="weight" label="Weight" placeholder="Enter pet weight"></app-input>
+                </section>
+                <hr class="fade-in-animation" />
+                <section class="fade-in-animation flex flex-col gap-4 mb-4 w-full h-full">
+                    <div class="flex flex-row gap-4">
+                        <div class="w-1/2 border-r-2 px-4">
+                            <app-typography text="Temperament Information" type="h4"></app-typography>
+                            <app-line-selector formControlName="temperament_how_calmed" labelStart="Chilled"
+                                labelEnd="Hyper"></app-line-selector>
+                            <app-line-selector formControlName="temperament_how_social" labelStart="Cuddler"
+                                labelEnd="Independent"></app-line-selector>
+                            <app-line-selector formControlName="temperament_how_attention_seeking" labelStart="Happy Alone"
+                                labelEnd="Separation Anxiety"></app-line-selector>
+                            <app-line-selector formControlName="temperament_how_active" labelStart="Low Exercise"
+                                labelEnd="High Exercise"></app-line-selector>
+                            <app-line-selector formControlName="temperament_how_loud" labelStart="Quiet" labelEnd="Noisy"></app-line-selector>
+                        </div>
+                        <div class="w-1/2 h-full px-4 flex flex-col py-6">
+                            <app-typography text="Affinities and other details" type="h4"></app-typography>
+                            <div class="checkboxes-container flex flex-row h-20 justify-between">
+                                <div class="flex flex-col">
+                                    <app-checkbox formControlName="_good_with_kids" label="Good with Kids" checkboxId="_good_with_kids" ngDefaultControl></app-checkbox>
+                                    <app-checkbox name="Good with Cats" formControlName="_good_with_cats" checkboxId="good_with_cats" label="Good with Cats"></app-checkbox>
+                                    <app-checkbox name="Good with Dogs" formControlName="_good_with_dogs" checkboxId="good_with_dogs" label="Good with Dogs"></app-checkbox>
+                                    <app-checkbox name="Spayed" formControlName="_spayed" checkboxId="spayed" label="Spayed"></app-checkbox>
+                                    <app-checkbox name="Vaccinated" formControlName="_vaccinated" checkboxId="vaccinated" label="Vaccinated"></app-checkbox>
+                                    <app-checkbox name="Wormed" formControlName="_wormed" checkboxId="wormed" label="Wormed"></app-checkbox>
+                                    <app-checkbox name="Declawed" formControlName="_declawed" checkboxId="declawed" label="Declawed"></app-checkbox>
+                                    <app-checkbox name="House Trained" formControlName="_house_trained" checkboxId="house_trained" label="House Trained"></app-checkbox>
                                 </div>
-                                <div class="flex flex-col gap-2">
-                                    <app-input formControlName="color" label="Color" placeholder="Enter pet color"></app-input>
+                                <div class="flex flex-col gap-4 mt-4">
+                                    <div class="flex flex-col gap-2">
+                                        <app-input formControlName="weight" label="Weight" placeholder="Enter pet weight"></app-input>
+                                    </div>
+                                    <div class="flex flex-col gap-2">
+                                        <app-input formControlName="color" label="Color" placeholder="Enter pet color"></app-input>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </section>
+                <hr class="fade-in-animation mb-4" />
+                <div class="fade-in-animation flex flex-row gap-4">
+                    <button 
+                        type="button" 
+                        (click)="close()"
+                        class="py-2 px-4 flex justify-center items-center bg-red-600 hover:bg-red-800 focus:ring-red-500 focus:ring-offset-red-200 text-white transition ease-in duration-200 text-center text-base"
+                    >Cancel</button>
+                    <button 
+                        type="submit"
+                        class="py-2 px-4 flex justify-center items-center bg-green-600 hover:bg-green-800 focus:ring-green-500 focus:ring-offset-red-200 text-white transition ease-in duration-200 text-center text-base"
+                    >Create</button>
                 </div>
-            </section>
-            <hr class="fade-in-animation mb-4" />
-            <div class="fade-in-animation flex flex-row gap-4">
-                <button 
-                    type="button" 
-                    (click)="close()"
-                    class="py-2 px-4 flex justify-center items-center bg-red-600 hover:bg-red-800 focus:ring-red-500 focus:ring-offset-red-200 text-white transition ease-in duration-200 text-center text-base"
-                >Cancel</button>
-                <button 
-                    type="submit"
-                    class="py-2 px-4 flex justify-center items-center bg-green-600 hover:bg-green-800 focus:ring-green-500 focus:ring-offset-red-200 text-white transition ease-in duration-200 text-center text-base"
-                >Create</button>
             </div>
-        </div>
-    </form>
+        </form>
+    } @else if (step != 0 && petId) {
+        <form (ngSubmit)="handleSubmitPetImages()">
+            <div class="flex flex-col gap-4 mb-4">
+                <app-typography text="Pet Images" type="h4"></app-typography>
+                <label for="images" class="block text-sm font-medium text-gray-700">Upload Images</label>
+                <input 
+                    type="file" 
+                    id="images" 
+                    name="images" 
+                    (change)="onFileChange($event)" 
+                    multiple
+                    #fileInput
+                    accept="image/*"
+                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm" />
+            </div>
+            <div class="flex flex-wrap gap-4 mt-4">
+                <div *ngFor="let image of imagePreviews; let i = index" class="relative w-24 h-24 border rounded overflow-hidden">
+                    <button type="button" (click)="removeImage(i, fileInput)"
+                        class="absolute top-0 right-0 bg-primary1-400 text-white rounded-full w-6 h-6 flex items-center justify-center p-1 m-1">X</button>
+                    <img [src]="image" alt="Current selection" class="w-full h-full object-cover">
+                </div>
+            </div>
+            <div class="flex flex-row gap-4">
+                <button 
+                    type="submit" class="mt-4 bg-primary1-400 text-white px-4 py-2 rounded">Submit</button>
+                <button type="button" (click)="handleClose.emit()"
+                    class="mt-4 bg-gray-500 text-white px-4 py-2 rounded">Close</button>
+            </div>
+        </form>
+    }
 </div>

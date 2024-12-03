@@ -22,6 +22,7 @@ export class PetsDashboardComponent implements OnInit{
   showCreatePetForm: boolean = false;
   private readonly currentPageSubject = new BehaviorSubject<number>(1);
   currentPage$ = this.currentPageSubject.asObservable();
+  newlyCreatedPet: Pet | null = null;
 
   set currentPage(value: number) {
     this.currentPageSubject.next(value);
@@ -75,8 +76,9 @@ export class PetsDashboardComponent implements OnInit{
     if(pet){
       try{
         this.petService.createPetByAdmin(pet).subscribe({
-          next: () => {
+          next: (newPet) => {
             alert("Pet created successfully!");
+            this.newlyCreatedPet = newPet;
           },
           error: (error) => {
             console.error(error);

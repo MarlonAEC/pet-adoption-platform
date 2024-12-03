@@ -43,6 +43,20 @@ export class PetService {
     });
   }
 
+  addImagesToPet(petId: number, images: FormData): Observable<Pet> {
+    if(!this.authService.username.getValue()){
+      throw new Error('You must be logged in to add images to a pet');
+    }
+    if(!this.authService.isAdminUser()){
+      throw new Error('You must be an admin to add images to a pet');
+    }
+    return this.http.post<Pet>(`${API_BASE_URL}/pet-images/${petId}`, images, {
+      headers: {
+        authorization: `Bearer ${this.authService.jwtToken.getValue()}`,
+      }
+    });
+  }
+
   applyToAdoptPet(petId: number): Observable<AdoptionApplication> {
     if(!this.authService.username){
       throw new Error('You must be logged in to apply to adopt a pet');

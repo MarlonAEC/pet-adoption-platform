@@ -39,8 +39,8 @@ export class LoginPageComponent {
       email: this.email,
       address: this.address
     }).subscribe({
-      next: () => {
-        if(this.authService.isAdmin.getValue())
+      next: (res) => {
+        if(this.authService.isAdminUser(res.roles))
           this.router.navigate(['/dashboard']);
         else
           this.router.navigate(['/find-pets']);
@@ -55,7 +55,7 @@ export class LoginPageComponent {
       password: this.password
     }).subscribe({
       next: (res) => {
-        if(this.authService.isAdminUser())
+        if(this.authService.isAdminUser(res.roles))
           this.router.navigate(['/dashboard']);
         else
           this.router.navigate(['/find-pets']);

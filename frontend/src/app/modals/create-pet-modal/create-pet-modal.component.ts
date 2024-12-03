@@ -1,10 +1,12 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { InputComponent } from "../../components/input/input.component";
 import { LineSelectorComponent } from "../../components/line-selector/line-selector.component";
 import { TypographyComponent } from "../../components/typography/typography.component";
 import { CheckboxComponent } from '../../components/checkbox/checkbox.component';
+import { PetService } from '../../services/pet.service';
+import { Pet } from '../../models/pet.model';
 
 @Component({
   selector: 'app-create-pet-modal',
@@ -45,10 +47,82 @@ export class CreatePetModalComponent {
   requirements_for_new_home = new FormControl<string[]>([]);
 
   form: FormGroup;
+  step: number = 0;
+  petId: number | null = null;
+  selectedImages: File[] = [];
+  imagePreviews: string[] = [];
+  @Input() newlyCreatedPet: Pet | null = null;
   @Output() handleSubmit = new EventEmitter();
   @Output() handleClose = new EventEmitter();
 
-  constructor(private readonly fb: FormBuilder) {
+  ngOnChanges(changes: SimpleChanges): void {
+    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
+    //Add '${implements OnChanges}' to the class.
+    if(changes['newlyCreatedPet']){
+      if(this.newlyCreatedPet){
+        this.setPetId(this.newlyCreatedPet.id);
+      }
+    }
+  }
+
+  setStep(index: number) {
+    this.step = index % 2;
+  }
+
+  setPetId(id: number) {
+    this.petId = id;
+  }
+
+  onFileChange(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    if(target.files) {
+      this.selectedImages = Array.from(target.files);
+      this.imagePreviews = [];
+
+      for(const file of this.selectedImages) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          if(e.target && typeof e.target.result === 'string') {
+            this.imagePreviews.push(e.target.result);
+          }
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+  }
+
+  removeImage(index: number, fileInput: HTMLInputElement): void {
+    this.selectedImages.splice(index, 1);
+    this.imagePreviews.splice(index, 1);
+    // Create a new DataTransfer object
+    const dataTransfer = new DataTransfer();
+    this.selectedImages.forEach(file => dataTransfer.items.add(file));
+
+    // Update the file input with the new FileList
+    fileInput.files = dataTransfer.files;
+  }
+
+  handleSubmitPetImages() {
+    if (this.selectedImages.length != 0 && this.petId) {
+      const formData = new FormData();
+      this.selectedImages.forEach(file => formData.append('images', file));
+      this.petService.addImagesToPet(this.petId, formData).subscribe({
+        next: (response) => {
+          console.log('Images uploaded successfully', response);
+        },
+        error: (error) => {
+          console.error('Failed to upload images', error);
+        }
+      });
+    } else {
+      console.error('No images selected or petId not set');
+    }
+  }
+
+  constructor(
+    private readonly fb: FormBuilder,
+    private readonly petService: PetService
+  ) {
     this.form = this.fb.group({
       name: ['', Validators.required],
       breed: this.breed,
@@ -83,13 +157,11 @@ export class CreatePetModalComponent {
   }
 
   submit() {
-    console.log(JSON.stringify(this.form.value, null, 2));
     if(this.form.valid){
-      console.log("Form is valid");
       this.handleSubmit.emit(this.form.value);
+      this.setStep(this.step + 1);
     }
     else {
-      console.log("Form is invalid");
       this.form.markAllAsTouched();
     }
   }
