@@ -29,6 +29,7 @@ export class FilterMenuComponent {
   breed = new FormControl<string | null>('');
   age = new FormControl<number | null>(-1);
   postalCode = new FormControl<string | null>('');
+  value = new FormControl<number | null>(-1);
 
 
   private readonly filterSource = new BehaviorSubject<PetFilter>({
@@ -77,6 +78,19 @@ export class FilterMenuComponent {
       label: 'Postal Code',
       control: this.postalCode,
     },
+    {
+      type: FilterType.SELECT,
+      name: PetFilterName.VALUE,
+      label: 'Value',
+      control: this.value,
+      options: [
+        {value: -1, label: 'Select an option'},
+        {value: 100, label: 'less than $100'},
+        {value: 200, label: 'less than $200'},
+        {value: 300, label: 'less than $300'},
+        {value: 999999, label: 'any value'},
+      ]
+    },
   ];
 
   constructor(private readonly filterService: FilterService) { 
@@ -87,6 +101,7 @@ export class FilterMenuComponent {
       this.age.valueChanges,
       this.breed.valueChanges,
       this.postalCode.valueChanges,
+      this.value.valueChanges,
     ).pipe(
       debounceTime(300)
     ).subscribe(() => {
@@ -95,7 +110,7 @@ export class FilterMenuComponent {
         breed: this.breed.value,
         postalCode: this.postalCode.value,
         species: null,
-        value: null,
+        value: this.value.value,
       };
       this.filterSource.next(newGeneralFilter);
     });

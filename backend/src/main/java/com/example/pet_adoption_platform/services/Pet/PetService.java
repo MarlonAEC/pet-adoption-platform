@@ -46,12 +46,17 @@ public class PetService {
         List<Predicate> predicates = new ArrayList<>();
 
         filter.forEach((key, value) -> {
-            if (key.startsWith("temperament_") && value instanceof Integer) {
+            if(key.equals("value") && (Double) value > 0) {
+                predicates.add(criteriaBuilder.lessThanOrEqualTo(pet.get(key), (Double) value));
+            }
+            else if (key.startsWith("temperament_") && value instanceof Integer) {
                 predicates.add(criteriaBuilder.lessThanOrEqualTo(pet.get(key), (Integer) value));
             } else if(value instanceof String && value != "") {
                 predicates.add(criteriaBuilder.equal(pet.get(key), value));
             } else if(value instanceof Boolean && Boolean.TRUE.equals(value)) {
                 predicates.add(criteriaBuilder.equal(pet.get(key), true));
+            } else if (value instanceof Integer && (Integer) value > 0){
+                predicates.add(criteriaBuilder.lessThanOrEqualTo(pet.get(key), (Integer) value));
             }
         });
 
