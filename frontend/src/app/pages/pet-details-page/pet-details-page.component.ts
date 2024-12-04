@@ -29,6 +29,7 @@ export class PetDetailsPageComponent implements OnInit {
   favoriteThings: string[] = [];
   requirementsForNewHome: string[] = [];
   applicationStatuses = ApplicationStatus;
+  imageCache: { [key: string]: string } = {};
 
   slides = new BehaviorSubject<{ src: string; alt: string; id: string; }[]>([]);
   slides$ = this.slides.asObservable();
@@ -47,15 +48,30 @@ export class PetDetailsPageComponent implements OnInit {
         this.favoriteThings = pet?.favourite_things ?? [];
         this.requirementsForNewHome = pet?.requirements_for_new_home ?? [];
         this.detailedInformation = this.collectDetailedInformation(pet);
-        this.slides.next(pet.images.map((image, index) => {
-          return {
-            src: `${API_BASE_URL}${image}`,
-            alt: `Slide ${index + 1}`,
-            id: `slide-${index}`
-          };
-        }));
+        this.preloadImages(pet?.images ?? []);
       });
     }
+  }
+
+  preloadImages(imageUrls: string[]) {
+    const images = imageUrls.map((url, index) => ({
+      src: `${API_BASE_URL}${url}`,
+      alt: `Slide ${index + 1}`,
+      id: `slide-${index}`
+    }));
+
+    images.forEach(image => {
+      if (!this.imageCache[image.src]) {
+        const img = new Image();
+        img.src = image.src;
+        img.onload = () => {
+          this.imageCache[image.src] = image.src;
+          this.slides.next([...this.slides.getValue(), image]);
+        };
+      } else {
+        this.slides.next([...this.slides.getValue(), image]);
+      }
+    });
   }
 
   onApplyToAdopt() {
