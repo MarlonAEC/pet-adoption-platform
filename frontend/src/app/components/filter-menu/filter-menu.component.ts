@@ -7,12 +7,13 @@ import { DropdownComponent } from '../dropdown/dropdown.component';
 import { FilterMenu, FilterType } from '../../models/ui.model';
 import { InputWithIconComponent } from "../input-with-icon/input-with-icon.component";
 import { ButtonComponent } from "../button/button.component";
+import { BehaviorSubject, debounce, debounceTime, merge } from 'rxjs';
 
 
 @Component({
   selector: 'app-filter-menu',
   standalone: true,
-  imports: [ReactiveFormsModule, FormsModule, TypographyComponent, DropdownComponent, InputWithIconComponent, ButtonComponent],
+  imports: [ReactiveFormsModule, FormsModule, DropdownComponent, InputWithIconComponent, ButtonComponent],
   templateUrl: './filter-menu.component.html',
   styleUrl: './filter-menu.component.css'
 })
@@ -25,9 +26,21 @@ export class FilterMenuComponent {
     value: null,
   };
 
-  breed = new FormControl('');
-  age = new FormControl('');
-  postalCode = new FormControl('');
+  breed = new FormControl<string | null>('');
+  age = new FormControl<number | null>(-1);
+  postalCode = new FormControl<string | null>('');
+
+
+  private readonly filterSource = new BehaviorSubject<PetFilter>({
+    age: null,
+    breed: null,
+    postalCode: null,
+    species: null,
+    value: null
+  });
+
+  generalPetFilter = this.filterSource.asObservable();
+
   buttonLabel = 'Filter';
 
   filterTopMenu: FilterMenu[] = [
@@ -51,11 +64,11 @@ export class FilterMenuComponent {
       label: 'Age',
       control: this.age,
       options: [
-        {value: '', label: 'Select an option'},
-        {value: 'puppy', label: 'less than 1 year'},
-        {value: 'young', label: '1 year to 4 years'},
-        {value: 'adult', label: '4 years to 8 years'},
-        {value: 'senior', label: '8 years or older'},
+        {value: -1, label: 'Select an option'},
+        {value: 1, label: 'less than 1 year'},
+        {value: 4, label: 'less than 4 years'},
+        {value: 8, label: 'less than 8 years'},
+        {value: 99, label: 'any age'},
       ]
     },
     {
@@ -70,17 +83,28 @@ export class FilterMenuComponent {
   }
 
   ngOnInit(): void {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
-    // this.filterService.currentFilter.subscribe(filter => {
-    //   this.petFilter = filter;
-    // });
-  }
+    merge(
+      this.age.valueChanges,
+      this.breed.valueChanges,
+      this.postalCode.valueChanges,
+    ).pipe(
+      debounceTime(300)
+    ).subscribe(() => {
+      const newGeneralFilter: PetFilter = {
+        age: this.age.value,
+        breed: this.breed.value,
+        postalCode: this.postalCode.value,
+        species: null,
+        value: null,
+      };
+      this.filterSource.next(newGeneralFilter);
+    });
 
-  onUpdateFilter(filterName: string, value: string) {
-    // console.log("🚀 ~ FilterMenuComponent ~ onUpdateFilter ~ filterName", filterName);
-    // if (this.petFilter[filterName as keyof PetFilter] !== value) {
-    //   this.filterService.updateFilter(filterName, value);
-    // }
+    this.generalPetFilter.subscribe({
+      next: (value) => {
+        console.log("🚀 ~ FilterMenuComponent ~ this.generalPetFilter.subscribe ~ value", value);
+        this.filterService.updateFilter(value);
+      }
+    });
   }
 }

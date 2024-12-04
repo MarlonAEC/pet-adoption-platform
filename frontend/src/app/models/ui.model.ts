@@ -3,7 +3,7 @@ import { PetFilterName } from "./filter.model";
 
 export interface SelectOption {
   label: string;
-  value: string;
+  value: string | number;
 }
 
 export const enum FilterType {
