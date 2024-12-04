@@ -9,6 +9,7 @@ import { LineSelectorComponent } from '../../components/line-selector/line-selec
 import { CarouselImagesComponent } from "../../components/carousel-images/carousel-images.component";
 import { API_BASE_URL } from '../../constants/api';
 import { BehaviorSubject } from 'rxjs';
+import { ApplicationStatus } from '../../models/application.model';
 
 @Component({
   selector: 'app-pet-details-page',
@@ -23,9 +24,11 @@ export class PetDetailsPageComponent implements OnInit {
     private readonly route: ActivatedRoute
   ) {}
   petId = null;
-  pet: Pet = {} as Pet;
+  pet = new BehaviorSubject<Pet | null>(null);
+  pet$ = this.pet.asObservable();
   favoriteThings: string[] = [];
   requirementsForNewHome: string[] = [];
+  applicationStatuses = ApplicationStatus;
 
   slides = new BehaviorSubject<{ src: string; alt: string; id: string; }[]>([]);
   slides$ = this.slides.asObservable();
@@ -40,7 +43,7 @@ export class PetDetailsPageComponent implements OnInit {
     this.petId = this.route.snapshot.params['id'];
     if(this.petId) {
       this.petService.getPetById(this.petId).subscribe(pet => {
-        this.pet = pet;
+        this.pet.next(pet);
         this.favoriteThings = pet?.favourite_things ?? [];
         this.requirementsForNewHome = pet?.requirements_for_new_home ?? [];
         this.detailedInformation = this.collectDetailedInformation(pet);
@@ -59,10 +62,25 @@ export class PetDetailsPageComponent implements OnInit {
     if(this.petId){
       this.petService.applyToAdoptPet(this.petId).subscribe({
         next: (res) => {
+          this.pet.next(res.pet);
           alert("Application submitted successfully: " + JSON.stringify(res, null, 2));
         },
         error: () => {
           alert("Failed to submit application");
+        }
+      });
+    }
+  }
+
+  onWithdrawApplication() {
+    if(this.petId){
+      this.petService.withdrawApplication(this.petId).subscribe({
+        next: (res) => {
+          this.pet.next(res.pet);
+          alert("Application withdrawn successfully: " + JSON.stringify(res, null, 2));
+        },
+        error: () => {
+          alert("Failed to withdraw application");
         }
       });
     }

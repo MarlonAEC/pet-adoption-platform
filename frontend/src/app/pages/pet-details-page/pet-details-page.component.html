@@ -12,54 +12,61 @@
             </div>
         </div>
         <div class="inset-0 bg-white w-2/5 flex flex-col items-start justify-center rounded-2xl h-full pt-10 pb-6 px-10">
-            <app-typography type="h5" [text]="this.pet.name" customClass="text-primary-500"></app-typography>
+            <app-typography type="h5" [text]="this.pet.value?.name || ''" customClass="text-primary-500"></app-typography>
             <app-typography type="span" text="About" customClass="text-neutral-500"></app-typography>
             <div class="flex flex-col w-full items-center justify-center gap-3">
                 <div class="flex flex-row justify-between w-full items-center">
                     <app-typography type="special" fontWeight="bold" text="Breed" customClass="text-primary-500"></app-typography>
-                    <app-typography type="span" [text]="this.pet.breed" customClass="text-neutral-500 top-3"></app-typography>
+                    <app-typography type="span" [text]="this.pet.value?.breed || ''" customClass="text-neutral-500 top-3"></app-typography>
                 </div>
                 <div class="flex flex-row justify-between w-full items-center">
                     <app-typography type="special" fontWeight="bold" text="Specie" customClass="text-primary-500"></app-typography>
-                    <app-typography type="special" [text]="this.pet.species" customClass="text-neutral-500 top-3"></app-typography>
+                    <app-typography type="special" [text]="this.pet.value?.species || ''" customClass="text-neutral-500 top-3"></app-typography>
                 </div>
                 <div class="flex flex-row justify-between w-full items-center">
                     <app-typography type="special" fontWeight="bold" text="Sex" customClass="text-primary-500"></app-typography>
-                    <app-typography type="special" [text]="this.pet.sex" customClass="text-neutral-500 top-3"></app-typography>
+                    <app-typography type="special" [text]="this.pet.value?.sex || ''" customClass="text-neutral-500 top-3"></app-typography>
                 </div>
                 <div class="flex flex-row justify-between w-full items-center">
                     <app-typography type="special" fontWeight="bold" text="Color" customClass="text-primary-500"></app-typography>
-                    <app-typography type="special" [text]="this.pet.color" customClass="text-neutral-500 top-3"></app-typography>
+                    <app-typography type="special" [text]="this.pet.value?.color || ''" customClass="text-neutral-500 top-3"></app-typography>
                 </div>
                 <div class="flex flex-row justify-between w-full items-center">
                     <app-typography type="special" fontWeight="bold" text="Weight" customClass="text-primary-500"></app-typography>
-                    <app-typography type="special" [text]="this.pet.weight + ' kg'" customClass="text-neutral-500 top-3"></app-typography>
+                    <app-typography type="special" [text]="this.pet.value?.weight ? this.pet.value?.weight + ' kg' : 'N/A'" customClass="text-neutral-500 top-3"></app-typography>
                 </div>
                 <div class="flex flex-row justify-between w-full items-center">
                     <app-typography type="special" fontWeight="bold" text="Age" customClass="text-primary-500"></app-typography>
-                    <app-typography type="special" [text]="this.pet.age + ' years old'" customClass="text-neutral-500 top-3"></app-typography>
+                    <app-typography type="special" [text]="this.pet.value?.age ? this.pet.value?.age + ' years old' : ''" customClass="text-neutral-500 top-3"></app-typography>
                 </div>
                 <div class="flex flex-row justify-between w-full items-center">
                     <app-typography type="special" fontWeight="bold" text="Arrived Date" customClass="text-primary-500"></app-typography>
-                    <app-typography type="special" text="{{this.pet.createdAt | date:'mediumDate'}}" customClass="text-neutral-500 top-3"></app-typography>
+                    <app-typography type="special" text="{{this.pet.value?.createdAt | date:'mediumDate'}}" customClass="text-neutral-500 top-3"></app-typography>
                 </div>
                 <div class="flex flex-row justify-between w-full items-center">
                     <app-typography type="special" fontWeight="bold" text="Location" customClass="text-primary-500"></app-typography>
-                    <app-typography type="special" [text]="this.pet.postal_code"
+                    <app-typography type="special" [text]="this.pet.value?.postal_code || ''"
                         customClass="text-neutral-500 top-3"></app-typography>
                 </div>
                 <br/>
                 <div class="flex flex-row justify-between w-full items-center">
                     <app-typography type="special" fontWeight="bold" text="Adoption Fee" customClass="text-primary-500"></app-typography>
-                    <app-typography type="special" [text]="'$ ' + this.pet.value" customClass="text-neutral-500 top-3"></app-typography>
+                    <app-typography type="special" [text]="'$ ' + this.pet.value?.value" customClass="text-neutral-500 top-3"></app-typography>
                 </div>
-                <app-button label="Apply to Adopt" class="w-full my-4" customClass="w-full" (onButtonClick)="onApplyToAdopt()"></app-button>
+                @if(pet.value?.statusOfApplication === applicationStatuses.NONE || pet.value?.statusOfApplication === applicationStatuses.CANCELED) {
+                    <app-button label="Apply to Adopt" class="w-full my-4" customClass="w-full" (onButtonClick)="onApplyToAdopt()"></app-button>
+                } @else if(pet.value?.statusOfApplication === applicationStatuses.WITHDRAWN) {
+                    <app-button label="Re-Apply to Adopt" class="w-full my-4" customClass="w-full" (onButtonClick)="onApplyToAdopt()"></app-button>
+                }
+                @else if(pet.value?.statusOfApplication === applicationStatuses.PENDING) {
+                    <app-button label="Withdrawn my application" class="w-full my-4" customClass="w-full" (onButtonClick)="onWithdrawApplication()"></app-button>
+                }
             </div>
         </div>
     </div>
     <div class="bg-white h-fit rounded-2xl py-10 px-4 flex flex-col gap-4 m-4">
         <app-typography type="h5" text="Description" customClass="text-primary-500"></app-typography>
-        <app-typography type="span" [text]="this.pet.description" customClass="text-primary-500"></app-typography>
+        <app-typography type="span" [text]="this.pet.value?.description || ''" customClass="text-primary-500"></app-typography>
         <hr/>
         <div *ngIf="favoriteThings.length > 0">
             <div class="pb-4">
@@ -130,19 +137,19 @@
             <div class="w-1/2">
                 <app-line-selector 
                     [disabled]="true" 
-                    [value]="this.pet.temperament_how_calmed"
+                    [value]="this.pet.value?.temperament_how_calmed || 0"
                     labelStart="Chilled"
                     labelEnd="Hyper"
                 ></app-line-selector>
                 <app-line-selector 
                     [disabled]="true" 
-                    [value]="this.pet.temperament_how_attention_seeking"
+                    [value]="this.pet.value?.temperament_how_attention_seeking || 0"
                     labelStart="Happy alone"
                     labelEnd="Separation Anxiety"
                 ></app-line-selector>
                 <app-line-selector 
                     [disabled]="true" 
-                    [value]="this.pet.temperament_how_loud" 
+                    [value]="this.pet.value?.temperament_how_loud || 0" 
                     labelStart="Quiet"
                     labelEnd="Noisy"
                 ></app-line-selector>
@@ -150,13 +157,13 @@
             <div class="w-1/2">
                 <app-line-selector 
                     [disabled]="true" 
-                    [value]="this.pet.temperament_how_social" 
+                    [value]="this.pet.value?.temperament_how_social || 0" 
                     labelStart="Cuddler"
                     labelEnd="Independent"
                 ></app-line-selector>
                 <app-line-selector 
                     [disabled]="true" 
-                    [value]="this.pet.temperament_how_active" 
+                    [value]="this.pet.value?.temperament_how_active || 0" 
                     labelStart="Low Exercise"
                     labelEnd="High Exercise"
                 ></app-line-selector>
@@ -165,7 +172,7 @@
         <hr />
         <div>
             <app-typography type="h6" text="Health issues" customClass="text-primary-500 pb-4"></app-typography>
-            <app-typography type="span" [text]="pet.health" customClass="text-primary-500 pb-4"></app-typography>
+            <app-typography type="span" [text]="pet.value?.health || ''" customClass="text-primary-500 pb-4"></app-typography>
         </div>
     </div>
 </div>

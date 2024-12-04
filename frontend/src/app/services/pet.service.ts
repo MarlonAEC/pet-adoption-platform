@@ -71,4 +71,16 @@ export class PetService {
       }
     });
   }
+
+  withdrawApplication(petId: number): Observable<AdoptionApplication> {
+    if(!this.authService.username){
+      throw new Error('You must be logged in to withdraw an application');
+    }
+    return this.http.put<AdoptionApplication>(`${API_BASE_URL}/adoption-applications/withdraw/${petId}`, {
+      headers: {
+        authorization: `Bearer ${this.authService.jwtToken.getValue()}`,
+        'Content-Type': 'application/json'
+      }
+    });
+  }
 }

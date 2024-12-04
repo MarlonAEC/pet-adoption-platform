@@ -65,7 +65,11 @@ public class AdoptionApplicationController {
 
         Optional<AdoptionApplication> alreadyApplied = adoptionApplicationRepository.findByUserAndPetId(user, request.getPetId());
 
-        if(alreadyApplied.isPresent()){
+        if(alreadyApplied.isPresent() && alreadyApplied.get().getStatus().equals("WITHDRAWN")){
+            alreadyApplied.get().setStatus("PENDING");
+            adoptionApplicationRepository.save(alreadyApplied.get());
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(alreadyApplied.get());
+        } else if(alreadyApplied.isPresent()){
             Map<String, String> response = new HashMap<>();
             response.put("message", "User with ID " + request.getUserId() + " already applied for pet with ID " + request.getPetId());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
@@ -101,15 +105,33 @@ public class AdoptionApplicationController {
         if(adoptionApplicationOptional.isPresent()){
             AdoptionApplication adoptionApplication = adoptionApplicationOptional.get();
 
-            adoptionApplication.setStatus("CANCELED");
+            adoptionApplication.setStatus("WITHDRAWN");
             adoptionApplicationRepository.save(adoptionApplication);
 
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+            return ResponseEntity.status(HttpStatus.OK).body(adoptionApplication);
         }
 
         Map<String, String> res = new HashMap<>();
         res.put("message", "Application with ID: " + id + " not found");
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(res);
+    }
+
+    @GetMapping("/my-applications")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<Page<AdoptionApplication>> getMyApplications(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        Optional<User> userOptional = userRepository.findByUsername(username);
+
+        if (userOptional.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        User user = userOptional.get();
+        Pageable pageable = PageRequest.of(page, size);
+        Page<AdoptionApplication> applications = adoptionApplicationRepository.findByUser(user, pageable);
+
+        return ResponseEntity.ok(applications);
     }
 
     @PutMapping("/{id}")

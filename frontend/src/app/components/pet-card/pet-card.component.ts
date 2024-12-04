@@ -4,6 +4,7 @@ import { TypographyComponent } from '../typography/typography.component';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { API_BASE_URL } from '../../constants/api';
+import { ApplicationStatus } from '../../models/application.model';
 
 @Component({
   selector: 'app-pet-card',
@@ -47,7 +48,9 @@ export class PetCardComponent {
     color: '',
     background: '',
     health: '',
-    sex: ''
+    sex: '',
+    applicationSubmittedOnThisPet: false,
+    statusOfApplication: ApplicationStatus.NONE,
   };
   imageToDisplay: string = '/assets/placeholder.svg';
 

@@ -1,5 +1,6 @@
 package com.example.pet_adoption_platform.entities;
 
+import com.example.pet_adoption_platform.serializers.PetSerializer;
 import com.example.pet_adoption_platform.utils.ImageUrlSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.persistence.*;
@@ -12,6 +13,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@JsonSerialize(using = PetSerializer.class)
 @Table(name = "pets")
 public class Pet {
     @Id

@@ -30,8 +30,9 @@
                     customClass="text-gray-600"
                 ></app-typography>
             </div>
-            <div class="pet-card-button">
-            </div>
+            @if(pet.applicationSubmittedOnThisPet){
+                <div class="bg-primary1-100 rounded-xl h-6 items-center px-3 justify-center w-fit"> Application submitted!</div>
+            }
         </div>
     </div>
 </a>

@@ -11,8 +11,13 @@ export class AuthInterceptor implements HttpInterceptor {
   ) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    console.log('Intercepting request');
-      return next.handle(req).pipe(
+      const authReq = req.clone({
+        setHeaders: {
+          Authorization: `Bearer ${this.authService.jwtToken.getValue()}`
+        }
+      });
+
+      return next.handle(authReq).pipe(
       catchError((error: HttpErrorResponse) => {
         if (error.status === 401 && error.error.message === 'Token has expired') {
           return this.authService.generateNewTokens().pipe(

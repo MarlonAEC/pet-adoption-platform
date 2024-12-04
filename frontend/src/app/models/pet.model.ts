@@ -1,3 +1,5 @@
+import { ApplicationStatus } from "./application.model";
+
 export interface Pet {
     id: number;
     name: string;
@@ -33,6 +35,8 @@ export interface Pet {
     _wormed: boolean;
     favourite_things: string[];
     requirements_for_new_home: string[];
+    applicationSubmittedOnThisPet: boolean;
+    statusOfApplication: ApplicationStatus;
 }
 
 export type InputPet = Omit<Pet,'createdAt' | 'updatedAt'>
