@@ -23,6 +23,8 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/images/**")
-                .addResourceLocations("file:uploaded_images/");
+                .addResourceLocations("file:uploaded_images/")
+                .setCachePeriod(3600)
+                .resourceChain(true);
     }
 }
