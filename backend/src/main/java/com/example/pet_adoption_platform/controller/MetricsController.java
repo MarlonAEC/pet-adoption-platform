@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -64,5 +65,17 @@ public class MetricsController {
         metrics.put("totalApprovedApplications", adoptionApplicationRepository.countByStatus("APPROVED"));
         metrics.put("totalCanceledApplications", adoptionApplicationRepository.countByStatus("CANCELED"));
         return ResponseEntity.ok(metrics);
+    }
+
+    @GetMapping("/breeds-and-species")
+    public ResponseEntity<Map<String, List<String>>> getAllUniqueBreedsAndSpecies() {
+        List<String> breeds = petRepository.findAllUniqueBreeds();
+        List<String> species = petRepository.findAllUniqueSpecies();
+
+        Map<String, List<String>> response = new HashMap<>();
+        response.put("breeds", breeds);
+        response.put("species", species);
+
+        return ResponseEntity.ok(response);
     }
 }

@@ -5,6 +5,7 @@ import { AuthService } from './auth.service';
 import { PetMetrics } from '../models/pet.model';
 import { ApplicationsMetrics } from '../models/application.model';
 import { UserMetrics } from '../models/user.model';
+import { BreedsAndSpeciesInfo } from '../models/ui.model';
 
 @Injectable({
   providedIn: 'root'
@@ -38,6 +39,14 @@ export class MetricsService {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${this.authService.jwtToken.getValue()}`
+      }
+    });
+  }
+
+  fetchBreedsAndSpeciesMetrics() {
+    return this.http.get<BreedsAndSpeciesInfo>(`${API_BASE_URL}/metrics/breeds-and-species`, {
+      headers: {
+        'Content-Type': 'application/json',
       }
     });
   }

@@ -26,7 +26,7 @@ export class FindPetPageComponent implements OnInit {
 
   constructor(
     private readonly filterService: FilterService,
-    private readonly petService: PetService
+    private readonly petService: PetService,
   ) {}
 
   set currentPage(value: number) {
@@ -55,7 +55,6 @@ export class FindPetPageComponent implements OnInit {
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
-
     combineLatest([
     this.filterService.currentFilterHash,
     this.currentPage$

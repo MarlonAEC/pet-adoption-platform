@@ -4,10 +4,11 @@ import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TypographyComponent } from '../typography/typography.component';
 import { PetFilter, PetFilterName } from '../../models/filter.model';
 import { DropdownComponent } from '../dropdown/dropdown.component';
-import { FilterMenu, FilterType } from '../../models/ui.model';
+import { FilterMenu, FilterType, SelectFilterMenu } from '../../models/ui.model';
 import { InputWithIconComponent } from "../input-with-icon/input-with-icon.component";
 import { ButtonComponent } from "../button/button.component";
 import { BehaviorSubject, debounce, debounceTime, merge } from 'rxjs';
+import { MetricsService } from '../../services/metrics.service';
 
 
 @Component({
@@ -93,10 +94,24 @@ export class FilterMenuComponent {
     },
   ];
 
-  constructor(private readonly filterService: FilterService) { 
+  constructor(
+    private readonly filterService: FilterService,
+    private readonly metricsService: MetricsService,
+  ) { 
   }
 
   ngOnInit(): void {
+
+    this.metricsService.fetchBreedsAndSpeciesMetrics().subscribe((res) =>{
+      const breeds: {
+        value: string;
+        label: string;
+      }[] = [];
+      breeds.push({value: '', label: 'Select an option'});
+      (this.filterTopMenu[0] as SelectFilterMenu).options = [...breeds, ...res.breeds.map(breed => ({value: breed, label: breed}))];
+      // (this.filterTopMenu[0] as SelectFilterMenu).options = res.breeds.map(breed => ({value: breed, label: breed}));
+    });
+
     merge(
       this.age.valueChanges,
       this.breed.valueChanges,

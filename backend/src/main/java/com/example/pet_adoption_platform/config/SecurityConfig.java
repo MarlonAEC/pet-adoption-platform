@@ -51,6 +51,7 @@ public class SecurityConfig {
                         .requestMatchers("/pets").permitAll()
                         .requestMatchers("/pets/filter").permitAll()
                         .requestMatchers("/pets/{id}").permitAll()
+                        .requestMatchers("/metrics/breeds-and-species").permitAll()
                         .requestMatchers("/").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

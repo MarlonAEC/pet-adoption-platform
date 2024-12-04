@@ -48,3 +48,8 @@ export enum IconType {
     APPLICATION = 'application',
     DEFAULT= 'default',
 }
+
+export interface BreedsAndSpeciesInfo {
+    breeds: string[];
+    species: string[];
+}
