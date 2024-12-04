@@ -2,11 +2,12 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { IntlRelativeTimePipe } from 'angular-ecmascript-intl';
 import { BehaviorSubject } from 'rxjs';
+import { TypographyComponent } from "../typography/typography.component";
 
 @Component({
   selector: 'app-table',
   standalone: true,
-  imports: [IntlRelativeTimePipe, CommonModule],
+  imports: [IntlRelativeTimePipe, CommonModule, TypographyComponent],
   templateUrl: './table.component.html',
   styleUrl: './table.component.css'
 })
