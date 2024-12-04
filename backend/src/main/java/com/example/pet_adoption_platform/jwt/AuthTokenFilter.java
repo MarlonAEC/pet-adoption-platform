@@ -40,6 +40,13 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         logger.debug("AuthTokenFilter called for URI: {}", request.getRequestURI());
+
+        // Bypass the filter for the refresh token endpoint
+        if (request.getRequestURI().equals("/auth/refresh-token")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         try {
             String jwt = parseJwt(request);
             if(jwt !=null && jwtUtils.validateJwtToken(jwt)) {
